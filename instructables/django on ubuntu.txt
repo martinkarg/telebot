@@ -1,0 +1,8 @@
+Ubuntu: https://docs.djangoproject.com/en/1.10/intro/tutorial01/
+
+#Install django (assumes python is present)
+sudo apt install python-pip
+pip install Django
+
+#Start a project
+django-admin startproject mysite

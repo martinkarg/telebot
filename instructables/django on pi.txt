@@ -1,0 +1,12 @@
+# http://raspberrypituts.com/raspberry-pi-django-tutorial-2017/
+
+mkdir -p ~/projects/django-rpi
+cd ~/projects/django-rpi/
+
+sudo apt install python-pip
+pip install virtualenv
+virtualenv venv && source venv/bin/activate
+
+pip install django
+django-admin startproject raspberrypiapp
+cd raspberrypiapp

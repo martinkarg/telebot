@@ -1,0 +1,4 @@
+https://github.com/umlaeute/v4l2loopback/
+
+outputing python to fake webcam:
+http://stackoverflow.com/questions/5825173/pipe-raw-opencv-images-to-ffmpeg
