@@ -44,6 +44,7 @@ Builder.load_string('''
     Button:
         id: settings_button
         size_hint: None, None
+        pos: 200,200
         text: 'Settings'
         on_release: app.open_settings()
     Button:
