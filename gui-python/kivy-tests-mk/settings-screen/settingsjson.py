@@ -28,4 +28,4 @@ settings_json = json.dumps([
      'title': 'A path setting',
      'desc': 'Path description text',
      'section': 'example',
-'key': 'pathexample'}])
+     'key': 'pathexample'}])
