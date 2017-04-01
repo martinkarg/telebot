@@ -1,0 +1,26 @@
+import json
+
+settings_json = json.dumps([
+    {'type': 'title',
+     'title': 'Robot Settings'},
+    {'type': 'numeric',
+     'title': 'Robot Number',
+     'desc': 'Set Robot Number',
+     'section': 'example',
+     'key': 'robot_number'},
+    {'type': 'options',
+     'title': 'An options setting',
+     'desc': 'Options description text',
+     'section': 'example',
+     'key': 'optionsexample',
+     'options': ['option1', 'option2', 'option3']},
+    {'type': 'string',
+     'title': 'Wi-Fi',
+     'desc': 'Wi-Fi access point to connect to',
+     'section': 'example',
+     'key': 'wifi'},
+    {'type': 'password',
+     'title': 'Wi-Fi Password',
+     'desc': 'Wi-Fi access point\'s password',
+     'section': 'example',
+     'key': 'wifi_password'}])

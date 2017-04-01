@@ -52,8 +52,7 @@ Builder.load_string('''
         position: 200,200
         text: 'Quit'
         background_color: (1,0,0,1)
-        on_press:
-            root.quit_program()
+        on_press: root.quit_program()
 ''')
 
 robot_number1 = "15.5454"
@@ -68,7 +67,7 @@ class Interface(BoxLayout):
     def get_value(self):
         print self.ids.slider_bar.value
 
-class SettingsApp(App):
+class RobotApp(App):
     def build(self):
         #self.settings_cls = SettingsWithSidebar
         self.use_kivy_settings = False
@@ -96,4 +95,4 @@ class SettingsApp(App):
         print config, section, key, value
 
 
-SettingsApp().run()
+RobotApp().run()
