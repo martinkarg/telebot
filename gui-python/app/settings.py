@@ -27,6 +27,7 @@ from kivy.properties import ObjectProperty
 from settingsjson import settings_json
 
 Robot_Number = "15.5454"
+Robot_Battery = 80
 
 class PasswordLabel(Label):
     pass
@@ -44,7 +45,7 @@ class SettingPassword(SettingString):
 
 class Interface(RelativeLayout):
     robot_number = Robot_Number
-    battery = 45
+    battery = Robot_Battery
 
     def quit_program(self):
         sys.exit(0)
@@ -52,12 +53,13 @@ class Interface(RelativeLayout):
     def get_value(self):
         print self.ids.slider_bar.value
 
+
 class RobotApp(App):
     def build(self):
-        #self.settings_cls = SettingsWithSidebar
+        app = Interface()
         self.use_kivy_settings = False
         setting = self.config.get('example', 'robot_number')
-        return Interface()
+        return app
 
     def build_config(self, config):
         config.setdefaults('example', {
@@ -75,42 +77,66 @@ class RobotApp(App):
     def on_config_change(self, config, section,
                          key, value):
         print config, section, key, value
+        print type(key)
+        if(key == 'optionsexample'):
+            print "hola"
+        if(key == 'robot_number'):
+            Robot_Number = value
+            print "New number: " + str(value)
 
 Builder.load_string('''
 <Interface>:
-    background_color: (0,0,1,1)
-    orientation: 'vertical'
-    Slider:
-        id: slider_bar
-        min: -25
-        max: 25
-        value: 0
-        on_value: root.get_value()
-        pos_hint: {'center_x': 0.5, 'center_y': 0.1}
-        size_hint: None, None
+    canvas.before:
+        Color:
+            rgb: 0.3529,0.3216,0.3882,1
+        Rectangle:
+            pos: self.pos
+            size: self.size
     ProgressBar:
         id: battery_bar
         max: 100
         value: root.battery
         pos_hint: {'center_x': 0.1, 'center_y': 0.9}
         size_hint: None, None
+        background_color: (0,1,0,1)
+    Label:
+        id: battery_text
+        text: str(root.battery) + '%'
+        pos_hint: {'center_x': 0.23, 'center_y': 0.9}
+        color: (1,1,1,1)
+        font_size: 30
+        bold: True
     Label:
         id: robot_number_label
         # uses 'root' to get the value of a variable in the parent class
         text: 'Robot: ' + root.robot_number
+        pos_hint: {'center_x': 0.5, 'center_y': 0.9}
+        color: (1,1,1,1)
+        font_size: 40
+        bold: True
+    Label:
+        id: face
+        text: ':]'
         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        color: (1,1,1,1)
+        font_size: 60
+        bold: True
+        orientation: 'vertical'
     Button:
         id: settings_button
         size_hint: None, None
+        size: 80, 40
         pos_hint: {'center_x': 0.9, 'center_y': 0.9}
+        background_color: (0.3725,0.4118,0.4784,1)
         text: 'Settings'
         on_release: app.open_settings()
     Button:
         id: quit_button
         size_hint: None, None
-        pos_hint: {'center_x': 0.75, 'center_y': 0.9}
+        size: 80, 40
+        pos_hint: {'center_x': 0.79, 'center_y': 0.9}
+        background_color: (0.3725,0.4118,0.4784,1)
         text: 'Quit'
-        background_color: (1,0,0,1)
         on_press: root.quit_program()
 
 <SettingPassword>:

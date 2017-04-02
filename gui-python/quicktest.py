@@ -1,45 +1,46 @@
-import kivy
-
 from kivy.app import App
+from kivy.properties import NumericProperty
+from kivy.lang import Builder
 from kivy.clock import Clock
-from kivy.uix.button import Button
-from kivy.uix.popup import Popup
-from kivy.uix.progressbar import ProgressBar
-from kivy.uix.widget import Widget
-from kivy.properties import ObjectProperty
 
-class MyWidget(Widget):
-    
-    progress_bar = ObjectProperty()
-    
-    def __init__(self, **kwa):
-        super(MyWidget, self).__init__(**kwa)
-        
-        self.progress_bar = ProgressBar()
-        self.popup = Popup(
-            title='Download',
-            content=self.progress_bar
+kv = """
+BoxLayout:
+    Widget:
+        Scatter:
+            center: self.parent.center
+            size: text.size
+            do_rotation: False
+            do_translation: False
+            do_scale: False
+            rotation: app.angle
+            Label:
+                id: text
+                size: self.texture_size
+                text: "test with scatter"
+    Widget:
+        Label:
+            center: self.parent.center
+            size: self.texture_size
+            canvas.before:
+                PushMatrix
+                Rotate:
+                    angle: app.angle
+                    origin: self.center
+            canvas.after:
+                PopMatrix
+            text: "test with matrix transformation"
+"""
 
-        )
-        self.popup.bind(on_open=self.puopen)
-        self.add_widget(Button(text='Download', on_release=self.pop))
 
-    def pop(self, instance):
-        self.progress_bar.value = 1
-        self.popup.open()
+class TextVerticalApp(App):
+    angle = NumericProperty(0)
 
-    def next(self, dt):
-        if self.progress_bar.value>=100:
-            return False
-        self.progress_bar.value += 1
-
-    def puopen(self, instance):
-        Clock.schedule_interval(self.next, 1/25)
-
-class MyApp(App):
     def build(self):
-        return MyWidget()
+        Clock.schedule_interval(self.update_angle, 0)
+        return Builder.load_string(kv)
 
+    def update_angle(self, dt, *args):
+        self.angle += dt * 100
 
-if __name__ in ("__main__"):
-	MyApp().run()
+if __name__ == '__main__':
+	TextVerticalApp().run()
