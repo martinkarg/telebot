@@ -1,18 +1,14 @@
 import sys
+# Import library to parse '.ini'
+import ConfigParser
 
+# Import Kivy Super Objects 
 from kivy.config import Config 
-
-# Configuration of kivy https://kivy.org/docs/api-kivy.config.html
-#Config.set('graphics', 'fullscreen', 'auto')
-#Config.set('graphics', 'borderless', '1')
-#Config.set('kivy', 'exit_on_escape', '1')
-#Config.set('kivy', 'keyboard_mode', 'systemanddock')
-
-
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.clock import Clock
 
+# Import Kivy UIX Objects
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.settings import SettingsWithSidebar
 from kivy.uix.progressbar import ProgressBar
@@ -22,14 +18,65 @@ from kivy.uix.settings import SettingString
 from kivy.uix.label import Label
 from kivy.uix.relativelayout import RelativeLayout
 
+# Import Kivy properties
 from kivy.properties import ObjectProperty
 
+# Import .json to configure settings screen
 from settingsjson import settings_json
 
+############################################################
+############ GLOBAL VARIABLES ##############################
+############################################################
+
 global Robot_Number
-Robot_Number = "15.5454"
 global Robot_Battery
+global Settings
+
+Robot_Number = "2189"
 Robot_Battery = 80
+
+############################################################
+############ FUNCTIONS #####################################
+############################################################
+
+''' Configuration of kivy https://kivy.org/docs/api-kivy.config.html
+    Function: Configures the app to be fullscreen, borderless, to exit
+              when user presses ESC key and allows touch keyboard
+    Parameters: None
+    Returns: None
+    ConfigKivy()
+'''
+def ConfigKivy():
+    Config.set('graphics', 'fullscreen', 'auto')
+    Config.set('graphics', 'borderless', '1')
+    Config.set('kivy', 'exit_on_escape', '1')
+    Config.set('kivy', 'keyboard_mode', 'systemanddock')
+    return None
+
+''' 
+    Function: Reads a .ini file and returns a dictionary
+    Parameters: string ini_file, string section to be read
+    Returns: dictionary with 'option': 'option value'
+    GetIniFile("settings.ini", "settings_example")
+''' 
+def GetIniFile(ini_file, section):
+    dict1 = {}
+    config = ConfigParser.ConfigParser()
+    config.read(str(ini_file))
+    options = config.options(section)
+    for option in options:
+        try:
+            dict1[option] = config.get(section, option)
+            if dict1[option] == -1:
+                DebugPrint("skip: %s" % option)
+        except:
+            print("exception on %s!" % option)
+            dict1[option] = None
+    return dict1
+
+############################################################
+############# CLASSES ######################################
+############################################################
 
 class PasswordLabel(Label):
     pass
@@ -96,6 +143,10 @@ class RobotApp(App):
             Robot_Number = value
             print "New number: " + str(Robot_Number)
             Interface().change_value()
+
+############################################################
+############# KIVY BUILDER #################################
+############################################################
 
 Builder.load_string('''
 <Interface>:
@@ -165,5 +216,11 @@ Builder.load_string('''
         font_size: '15sp'
 ''')
 
+############################################################
+############# MAIN #########################################
+############################################################
+
 if __name__ == '__main__':
-    RobotApp().run()
+    Settings = GetIniFile("robot.ini", "example")
+    print Settings
+    #RobotApp().run()
