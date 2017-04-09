@@ -26,7 +26,9 @@ from kivy.properties import ObjectProperty
 
 from settingsjson import settings_json
 
+global Robot_Number
 Robot_Number = "15.5454"
+global Robot_Battery
 Robot_Battery = 80
 
 class PasswordLabel(Label):
@@ -53,12 +55,22 @@ class Interface(RelativeLayout):
     def get_value(self):
         print self.ids.slider_bar.value
 
+    def change_value(self):
+        self.ids.robot_number_label.text = 'Test: ' + str(Robot_Number)
+
+    # This should be called every x time
+    def update_values(self):
+        self.ids.robot_number_label.text = 'Robot: ' + str(Robot_Number)
+        self.ids.battery_bar.value = Battery_Percentage
+        self.ids.battery_text.text = str(Battery_Percentage) + '%'
+
 
 class RobotApp(App):
     def build(self):
         app = Interface()
         self.use_kivy_settings = False
         setting = self.config.get('example', 'robot_number')
+        #app.change_value()
         return app
 
     def build_config(self, config):
@@ -82,7 +94,8 @@ class RobotApp(App):
             print "hola"
         if(key == 'robot_number'):
             Robot_Number = value
-            print "New number: " + str(value)
+            print "New number: " + str(Robot_Number)
+            Interface().change_value()
 
 Builder.load_string('''
 <Interface>:
@@ -138,6 +151,12 @@ Builder.load_string('''
         background_color: (0.3725,0.4118,0.4784,1)
         text: 'Quit'
         on_press: root.quit_program()
+    TextInput:
+        id: motor_1_text
+        text: 'Motor 1 (0-180)'
+        on_text: root.change_value()
+        size_hint: None, None
+        size: 80, 40
 
 <SettingPassword>:
     PasswordLabel:
