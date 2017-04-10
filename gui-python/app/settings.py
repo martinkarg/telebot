@@ -28,13 +28,6 @@ from kivy.properties import ObjectProperty
 from settingsjson import settings_json
 
 ############################################################
-############ GLOBAL VARIABLES ##############################
-############################################################
-
-Robot_Number = "4157"
-Robot_Battery = 80
-
-############################################################
 ############ FUNCTIONS #####################################
 ############################################################
 
@@ -88,11 +81,27 @@ def GetSettings(ini_file, section):
     print Robot_Number
     return None
 
+''' 
+    Function: Gets battery status from the serial data
+    Parameters: None
+    Returns: int battery_value
+    GetBattery()
+''' 
 def GetBattery():
-    return Robot_Battery
+    robot_battery = 15
+    return robot_battery
 
+''' 
+    Function: Gets current date and time
+    Parameters: None
+    Returns: string "day-month-year hour:minute:second"
+    GetDate()
+''' 
 def GetDate():
     return strftime("%d-%m-%Y %H:%M:%S", gmtime())
+
+def ChangeWifi():
+    pass
 
 ############################################################
 ############# CLASSES ######################################
