@@ -1,6 +1,9 @@
+# Import library to use system functions
 import sys
-# Import library to parse '.ini'
+# Import library to parse '.ini' files
 import ConfigParser
+# Import library for getting and configuring time strings
+from time import gmtime, strftime
 
 # Import Kivy Super Objects 
 from kivy.config import Config 
@@ -28,11 +31,7 @@ from settingsjson import settings_json
 ############ GLOBAL VARIABLES ##############################
 ############################################################
 
-global Robot_Number
-global Robot_Battery
-global Settings
-
-Robot_Number = "2189"
+Robot_Number = "4157"
 Robot_Battery = 80
 
 ############################################################
@@ -74,6 +73,27 @@ def GetIniFile(ini_file, section):
             dict1[option] = None
     return dict1
 
+''' 
+    Function: Wrapper for GetIniFile and assigns the options
+              /values read to the corresponding global variables
+    Parameters: string ini_file, string section to be read
+    Returns: None
+    GetSettings("settings.ini", "settings_example")
+''' 
+def GetSettings(ini_file, section):
+    settings = GetIniFile("robot.ini", "example")
+    Robot_Number = settings["robot_number"]
+    WiFi = settings["wifi"]
+    WiFi_Password = settings["wifi_password"]
+    print Robot_Number
+    return None
+
+def GetBattery():
+    return Robot_Battery
+
+def GetDate():
+    return strftime("%d-%m-%Y %H:%M:%S", gmtime())
+
 ############################################################
 ############# CLASSES ######################################
 ############################################################
@@ -93,8 +113,8 @@ class SettingPassword(SettingString):
             return self.content.add_widget(widget, *largs)
 
 class Interface(RelativeLayout):
-    robot_number = Robot_Number
-    battery = Robot_Battery
+    robot_number = GetIniFile("robot.ini","example")["robot_number"]
+    battery = GetBattery()
 
     def quit_program(self):
         sys.exit(0)
@@ -106,11 +126,11 @@ class Interface(RelativeLayout):
         self.ids.robot_number_label.text = 'Test: ' + str(Robot_Number)
 
     # This should be called every x time
-    def update_values(self):
-        self.ids.robot_number_label.text = 'Robot: ' + str(Robot_Number)
-        self.ids.battery_bar.value = Battery_Percentage
-        self.ids.battery_text.text = str(Battery_Percentage) + '%'
-
+    def update(self, dt):
+        self.ids.robot_number_label.text = 'Robot: ' + GetIniFile("robot.ini","example")["robot_number"]
+        self.ids.battery_bar.value = GetBattery()
+        self.ids.battery_text.text = str(GetBattery()) + '%'
+        self.ids.time.text = GetDate()
 
 class RobotApp(App):
     def build(self):
@@ -118,6 +138,7 @@ class RobotApp(App):
         self.use_kivy_settings = False
         setting = self.config.get('example', 'robot_number')
         #app.change_value()
+        Clock.schedule_interval(app.update, 1.0 / 60.0)
         return app
 
     def build_config(self, config):
@@ -186,6 +207,13 @@ Builder.load_string('''
         font_size: 60
         bold: True
         orientation: 'vertical'
+    Label:
+        id: time
+        text: '00:00:00'
+        pos_hint: {'center_x': 0.85, 'center_y': 0.05}
+        color: (1,1,1,1)
+        font_size: 20
+        bold: True
     Button:
         id: settings_button
         size_hint: None, None
@@ -202,12 +230,6 @@ Builder.load_string('''
         background_color: (0.3725,0.4118,0.4784,1)
         text: 'Quit'
         on_press: root.quit_program()
-    TextInput:
-        id: motor_1_text
-        text: 'Motor 1 (0-180)'
-        on_text: root.change_value()
-        size_hint: None, None
-        size: 80, 40
 
 <SettingPassword>:
     PasswordLabel:
@@ -221,6 +243,6 @@ Builder.load_string('''
 ############################################################
 
 if __name__ == '__main__':
-    Settings = GetIniFile("robot.ini", "example")
-    print Settings
-    #RobotApp().run()
+    Robot_Number = GetIniFile("robot.ini","example")["robot_number"]
+    print "Robot No. read from 'robot.ini': " + Robot_Number
+    RobotApp().run()
