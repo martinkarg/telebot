@@ -74,7 +74,7 @@ def GetIniFile(ini_file, section):
     GetSettings("settings.ini", "settings_example")
 ''' 
 def GetSettings(ini_file, section):
-    settings = GetIniFile("robot.ini", "example")
+    settings = GetIniFile("robot.ini", "robot")
     Robot_Number = settings["robot_number"]
     WiFi = settings["wifi"]
     WiFi_Password = settings["wifi_password"]
@@ -122,7 +122,7 @@ class SettingPassword(SettingString):
             return self.content.add_widget(widget, *largs)
 
 class Interface(RelativeLayout):
-    robot_number = GetIniFile("robot.ini","example")["robot_number"]
+    robot_number = GetIniFile("robot.ini","robot")["robot_number"]
     battery = GetBattery()
 
     def quit_program(self):
@@ -136,7 +136,7 @@ class Interface(RelativeLayout):
 
     # This should be called every x time
     def update(self, dt):
-        self.ids.robot_number_label.text = 'Robot: ' + GetIniFile("robot.ini","example")["robot_number"]
+        self.ids.robot_number_label.text = 'Robot: ' + GetIniFile("robot.ini","robot")["robot_number"]
         self.ids.battery_bar.value = GetBattery()
         self.ids.battery_text.text = str(GetBattery()) + '%'
         self.ids.time.text = GetDate()
@@ -145,13 +145,13 @@ class RobotApp(App):
     def build(self):
         app = Interface()
         self.use_kivy_settings = False
-        setting = self.config.get('example', 'robot_number')
+        setting = self.config.get('robot', 'robot_number')
         #app.change_value()
         Clock.schedule_interval(app.update, 1.0 / 60.0)
         return app
 
     def build_config(self, config):
-        config.setdefaults('example', {
+        config.setdefaults('robot', {
             'robot_number': Robot_Number,
             'optionsexample': 'option2',
             'wifi': 'Some Acces Point',
@@ -252,6 +252,6 @@ Builder.load_string('''
 ############################################################
 
 if __name__ == '__main__':
-    Robot_Number = GetIniFile("robot.ini","example")["robot_number"]
+    Robot_Number = GetIniFile("robot.ini","robot")["robot_number"]
     print "Robot No. read from 'robot.ini': " + Robot_Number
     RobotApp().run()
