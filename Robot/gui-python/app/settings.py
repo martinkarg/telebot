@@ -4,6 +4,8 @@ import sys
 import ConfigParser
 # Import library for getting and configuring time strings
 from time import gmtime, strftime
+# Import library for reading networks and configuring current network
+import wifi
 
 # Import Kivy Super Objects 
 from kivy.config import Config 
@@ -18,6 +20,7 @@ from kivy.uix.progressbar import ProgressBar
 from kivy.uix.button import Button
 from kivy.uix.popup import Popup
 from kivy.uix.settings import SettingString
+from kivy.uix.settings import SettingOptions
 from kivy.uix.label import Label
 from kivy.uix.relativelayout import RelativeLayout
 
@@ -100,12 +103,33 @@ def GetBattery():
 def GetDate():
     return strftime("%d-%m-%Y %H:%M:%S", gmtime())
 
+''' 
+    Function: Gets available WiFi networks
+    Parameters: interface name
+    Returns: list of strings with available SSID's
+    ScanWifi('wlan0')
+''' 
+def ScanWifi(interface):
+    interface = 'wlp4s0'
+    # Scan networks & generate a list of Cells
+    networks = wifi.Cell.all(interface)
+    # Declare list to hold SSID names, and fill it
+    SSID_List = list()
+    for network in networks:
+        SSID_List.append(str(network.ssid) + ', ' + str(network.encryption_type) 
+                         + ', ' + str(network.quality))
+    # Return list with SSID strings
+    return SSID_List
+
 def ChangeWifi():
     pass
 
 ############################################################
-############# CLASSES ######################################
+############# KIVY CLASSES #################################
 ############################################################
+
+class WifiList(SettingOptions):
+    pass
 
 class PasswordLabel(Label):
     pass
@@ -141,24 +165,37 @@ class Interface(RelativeLayout):
         self.ids.battery_text.text = str(GetBattery()) + '%'
         self.ids.time.text = GetDate()
 
+    def update_settings(self, dt):
+        pass
+
 class RobotApp(App):
     def build(self):
         app = Interface()
+
         self.use_kivy_settings = False
+
+        # This just gets the robot_number current setting from self.config
         setting = self.config.get('robot', 'robot_number')
-        #app.change_value()
+
         Clock.schedule_interval(app.update, 1.0 / 60.0)
+        Clock.schedule_interval(self.update_settings, 5.0)
         return app
+
+    def update_settings(self, dt):
+        #self.destroy_settings()
+        #self.build_settings()
+        pass
 
     def build_config(self, config):
         config.setdefaults('robot', {
             'robot_number': Robot_Number,
-            'optionsexample': 'option2',
+            'options_wifi': 'option1',
             'wifi': 'Some Acces Point',
             'wifi_password': ''})
 
     def build_settings(self, settings):
         settings.register_type('password', SettingPassword)
+        settings.register_type('dynamic_list', WifiList)
         settings.add_json_panel('Robot Settings',
                                 self.config,
                                 data=settings_json)
@@ -254,4 +291,6 @@ Builder.load_string('''
 if __name__ == '__main__':
     Robot_Number = GetIniFile("robot.ini","robot")["robot_number"]
     print "Robot No. read from 'robot.ini': " + Robot_Number
+    print ScanWifi('aaaa')
     RobotApp().run()
+
