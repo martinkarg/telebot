@@ -121,8 +121,18 @@ def ScanWifi(interface):
     # Return list with SSID strings
     return SSID_List
 
-def ChangeWifi():
+def ChangeWifi(ssid, password):
     pass
+
+def ChangeSettings():
+    #print settings_json
+    test = settings_json.split("\"insertion\"")
+    #print "Split str: " + str(test[0]) + str(test[1])
+    SSID_List = ScanWifi('abcd')
+    test = ""
+    for ssid in SSID_List:
+        test = "\"" + test + ssid + "\","
+    return test
 
 ############################################################
 ############# KIVY CLASSES #################################
@@ -289,8 +299,4 @@ Builder.load_string('''
 ############################################################
 
 if __name__ == '__main__':
-    Robot_Number = GetIniFile("robot.ini","robot")["robot_number"]
-    print "Robot No. read from 'robot.ini': " + Robot_Number
-    print ScanWifi('aaaa')
     RobotApp().run()
-

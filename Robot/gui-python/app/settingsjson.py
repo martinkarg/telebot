@@ -14,7 +14,7 @@ settings_json = json.dumps([
      'desc': 'Current WiFi connections',
      'section': 'robot',
      'key': 'options_wifi',
-     'options': ['option1', 'option2', 'option3']},
+     'options': ['insertion']},
     {'type': 'string',
      'title': 'Wi-Fi',
      'desc': 'Wi-Fi access point to connect to',
