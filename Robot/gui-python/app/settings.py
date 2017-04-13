@@ -107,7 +107,7 @@ def GetDate():
 
 ''' 
     Function: Gets available WiFi networks
-    Parameters: interface name
+    Parameters: str interface (to use for scanning)
     Returns: list of strings with available SSID's
     ScanWifi('wlan0')
 ''' 
@@ -126,7 +126,7 @@ def ScanWifi(interface):
 ''' 
     Function: Changes the settings screen variables to display all
               available wifi networks in the options_wifi container
-    Parameters: str original_json_string
+    Parameters: str original_json_string (to modify)
     Returns: str modified_json_string (adds WiFi networks)
     ChangeSettings(settings_json)
 ''' 
@@ -145,11 +145,16 @@ def ChangeSettings(settings_json):
 
 ''' 
     Function: Connects to specified WiFi network using specified pwd
-    Parameters: str ssid, str password
+    Parameters: str interface (to connect with), str ssid (to connect to), 
+                str password (to use)
     Returns: None
     ChangeWifi("Some_Network", "password")
 ''' 
-def ChangeWifi(ssid, password):
+def ChangeWifi(interface, ssid, password):
+    cell = Cell.all(interface)[0]
+    scheme = Scheme.for_cell(interface, 'robot_connection', ssid, password)
+    scheme.save()
+    scheme.activate()
     return None
 
 ############################################################
