@@ -18,3 +18,8 @@ for network in networks:
 
 print SSID_List
 print SSID_List[0]
+
+cell = wifi.Cell.all(interface)[0]
+scheme = wifi.Scheme.for_cell(interface, 'home', cell, '687094959704')
+
+scheme.activate()
