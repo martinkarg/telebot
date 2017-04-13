@@ -7,6 +7,8 @@ from time import gmtime, strftime
 # Import library for reading networks and configuring current network
 import wifi
 
+import json
+
 # Import Kivy Super Objects 
 from kivy.config import Config 
 from kivy.app import App
@@ -121,18 +123,34 @@ def ScanWifi(interface):
     # Return list with SSID strings
     return SSID_List
 
-def ChangeWifi(ssid, password):
-    pass
-
-def ChangeSettings():
+''' 
+    Function: Changes the settings screen variables to display all
+              available wifi networks in the options_wifi container
+    Parameters: str original_json_string
+    Returns: str modified_json_string (adds WiFi networks)
+    ChangeSettings(settings_json)
+''' 
+def ChangeSettings(settings_json):
     #print settings_json
     test = settings_json.split("\"insertion\"")
     #print "Split str: " + str(test[0]) + str(test[1])
     SSID_List = ScanWifi('abcd')
-    test = ""
+    test = ''
     for ssid in SSID_List:
-        test = "\"" + test + ssid + "\","
-    return test
+        ssid = '\"' + ssid + '\"'
+        test = test + ',' + ssid
+    json_string = settings_json.split("\"insertion\"")
+    settings_json = json_string[0] + test[1:len(test)] + json_string[1]
+    return settings_json
+
+''' 
+    Function: Connects to specified WiFi network using specified pwd
+    Parameters: str ssid, str password
+    Returns: None
+    ChangeWifi("Some_Network", "password")
+''' 
+def ChangeWifi(ssid, password):
+    return None
 
 ############################################################
 ############# KIVY CLASSES #################################
@@ -166,7 +184,7 @@ class Interface(RelativeLayout):
         print self.ids.slider_bar.value
 
     def change_value(self):
-        self.ids.robot_number_label.text = 'Test: ' + str(Robot_Number)
+        self.ids.robot_number_label.text = 'Test: ' + robot_number
 
     # This should be called every x time
     def update(self, dt):
@@ -198,9 +216,8 @@ class RobotApp(App):
 
     def build_config(self, config):
         config.setdefaults('robot', {
-            'robot_number': Robot_Number,
-            'options_wifi': 'option1',
-            'wifi': 'Some Acces Point',
+            'robot_number': GetIniFile("robot.ini","robot")["robot_number"],
+            'options_wifi': 'Some WiFi',
             'wifi_password': ''})
 
     def build_settings(self, settings):
@@ -213,13 +230,9 @@ class RobotApp(App):
     def on_config_change(self, config, section,
                          key, value):
         print config, section, key, value
-        print type(key)
-        if(key == 'optionsexample'):
-            print "hola"
-        if(key == 'robot_number'):
-            Robot_Number = value
-            print "New number: " + str(Robot_Number)
-            Interface().change_value()
+        if(key == 'options_wifi'):
+            print "Changing WiFi"
+            ChangeWifi(GetIniFile("robot.ini","robot")["options_wifi"],GetIniFile("robot.ini","robot")["wifi_password"])
 
 ############################################################
 ############# KIVY BUILDER #################################
@@ -299,4 +312,5 @@ Builder.load_string('''
 ############################################################
 
 if __name__ == '__main__':
+    settings_json = ChangeSettings(settings_json)
     RobotApp().run()
