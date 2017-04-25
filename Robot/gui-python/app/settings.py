@@ -282,7 +282,7 @@ Builder.load_string('''
 <Interface>:
     canvas.before:
         Color:
-            rgb: 0.3529,0.3216,0.3882,1
+            rgb: 0.356862745,0.117647059,0.517647059,1
         Rectangle:
             pos: self.pos
             size: self.size
