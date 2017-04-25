@@ -11,6 +11,18 @@ ser = serial.Serial(
 )
 counter = 0
 
+serial_commands = {
+  'forward': 16,
+  'right': 32,
+  'left': 48,
+  'clockwise': 64,
+  'anti_clockwise': 80,
+  'stop': 96,
+  'sensor_1': 112,
+  'sensor_2': 128,
+  'battery': 144
+}
+
 while 1:
   x = ser.readline()
   print x
