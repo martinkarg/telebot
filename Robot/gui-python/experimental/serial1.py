@@ -1,8 +1,9 @@
+
 import time
 import serial
 
 ser = serial.Serial(
-  port="/dev/ttyUAMA0",
+  port="/dev/ttyAMA0",
   baudrate = 9600,
   parity = serial.PARITY_NONE,
   stopbits = serial.STOPBITS_ONE,
@@ -25,6 +26,8 @@ serial_commands = {
 
 while 1:
   x = ser.readline()
+  print "Esperando mensaje..."
   print x
   time.sleep(1)
+  print "Mandando mensaje..."
   ser.write("Hello, World")
