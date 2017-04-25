@@ -32,9 +32,44 @@ from kivy.properties import ObjectProperty
 # Import .json to configure settings screen
 from settingsjson import settings_json
 
+
+global Serial_Commands
+Serial_Commands = {
+    'forward': 16,
+    'right': 32,
+    'left': 48,
+    'clockwise': 64,
+    'anti_clockwise': 80,
+    'stop': 96,
+    'sensor_1': 112,
+    'sensor_2': 128,
+    'battery': 144
+}
+
 ############################################################
 ############ FUNCTIONS #####################################
 ############################################################
+
+def StartSerial():
+    ser = serial.Serial(
+      port="/dev/ttyAMA0",
+      baudrate = 9600,
+      parity = serial.PARITY_NONE,
+      stopbits = serial.STOPBITS_ONE,
+      bytesize = serial.EIGHTBITS,
+      timeout = 1
+    )
+    return ser
+    
+
+def SendMessage(ser, message):
+    ser.write(message)
+    return True
+
+def GetMessage():
+    serial_message = ser.readline()
+    return serial_message
+
 
 ''' Configuration of kivy https://kivy.org/docs/api-kivy.config.html
     Function: Configures the app to be fullscreen, borderless, to exit
@@ -317,5 +352,6 @@ Builder.load_string('''
 ############################################################
 
 if __name__ == '__main__':
+    print Serial_Commands['forward']
     settings_json = ChangeSettings(settings_json)
     RobotApp().run()
