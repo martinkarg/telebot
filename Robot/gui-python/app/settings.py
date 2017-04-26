@@ -79,7 +79,7 @@ def GetMessage():
     ConfigKivy()
 '''
 def ConfigKivy():
-    Config.set('graphics', 'fullscreen', 'auto')
+    Config.set('graphics', 'fullscreen', '1')
     Config.set('graphics', 'borderless', '1')
     Config.set('kivy', 'exit_on_escape', '1')
     Config.set('kivy', 'keyboard_mode', 'systemanddock')
@@ -352,6 +352,7 @@ Builder.load_string('''
 ############################################################
 
 if __name__ == '__main__':
+    ConfigKivy()
     print Serial_Commands['forward']
     settings_json = ChangeSettings(settings_json)
     RobotApp().run()
