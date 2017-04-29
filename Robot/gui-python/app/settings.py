@@ -46,6 +46,14 @@ Serial_Commands = {
     'battery': 144
 }
 
+global Speed_Modes
+Speed_Modes = {
+    'level_0': 0,
+    'level_1': 1,
+    'level_2': 2,
+    'level_3': 3
+}
+
 ############################################################
 ############ FUNCTIONS #####################################
 ############################################################
@@ -61,36 +69,15 @@ def StartSerial():
     )
     return ser
     
-''' 
-    Function: Gets battery status from the serial data
-    Parameters: serial ser, String message
-    Returns: 
-    SendMessage()
-''' 
+
 def SendMessage(ser, message):
     ser.write(message)
     return True
 
-''' 
-    Function: Gets battery status from the serial data
-    Parameters: None
-    Returns: int battery_value
-    GetBattery()
-''' 
-def GetMessage(ser):
+def GetMessage():
     serial_message = ser.readline()
     return serial_message
 
-''' 
-    Function: Gets battery status from the serial data
-    Parameters: None
-    Returns: int battery_value
-    GetBattery()
-''' 
-def GetBattery(ser):
-    SendMessage(ser, Serial_Commands['battery'])
-    robot_battery = GetMessage(ser) - Serial_Commands['battery']
-    return robot_battery
 
 ''' Configuration of kivy https://kivy.org/docs/api-kivy.config.html
     Function: Configures the app to be fullscreen, borderless, to exit
@@ -141,6 +128,16 @@ def GetSettings(ini_file, section):
     WiFi_Password = settings["wifi_password"]
     print Robot_Number
     return None
+
+''' 
+    Function: Gets battery status from the serial data
+    Parameters: None
+    Returns: int battery_value
+    GetBattery()
+''' 
+def GetBattery():
+    robot_battery = 15
+    return robot_battery
 
 ''' 
     Function: Gets current date and time
@@ -226,8 +223,7 @@ class SettingPassword(SettingString):
 
 class Interface(RelativeLayout):
     robot_number = GetIniFile("robot.ini","robot")["robot_number"]
-    battery = 15
-    #battery = GetBattery()
+    battery = GetBattery()
 
     def quit_program(self):
         sys.exit(0)
@@ -241,8 +237,8 @@ class Interface(RelativeLayout):
     # This should be called every x time
     def update(self, dt):
         self.ids.robot_number_label.text = 'Robot: ' + GetIniFile("robot.ini","robot")["robot_number"]
-        self.ids.battery_bar.value = 15 #GetBattery()
-        self.ids.battery_text.text = str(15) + '%' #str(GetBattery()) + '%'
+        self.ids.battery_bar.value = GetBattery()
+        self.ids.battery_text.text = str(GetBattery()) + '%'
         self.ids.time.text = GetDate()
 
     def update_settings(self, dt):
@@ -284,7 +280,7 @@ class RobotApp(App):
         print config, section, key, value
         if(key == 'options_wifi'):
             print "Changing WiFi"
-            # ChangeWifi(GetIniFile("robot.ini","robot")["options_wifi"],GetIniFile("robot.ini","robot")["wifi_password"])
+            ChangeWifi(GetIniFile("robot.ini","robot")["options_wifi"],GetIniFile("robot.ini","robot")["wifi_password"])
 
 ############################################################
 ############# KIVY BUILDER #################################
@@ -366,5 +362,5 @@ Builder.load_string('''
 if __name__ == '__main__':
     ConfigKivy()
     print Serial_Commands['forward']
-    #settings_json = ChangeSettings(settings_json)
+    settings_json = ChangeSettings(settings_json)
     RobotApp().run()
