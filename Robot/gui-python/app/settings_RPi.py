@@ -32,6 +32,15 @@ from kivy.properties import ObjectProperty
 # Import .json to configure settings screen
 from settingsjson import settings_json
 
+global ser
+ser = serial.Serial(
+                        port="/dev/ttyAMA0",
+                        baudrate = 9600,
+                        parity = serial.PARITY_NONE,
+                        stopbits = serial.STOPBITS_ONE,
+                        bytesize = serial.EIGHTBITS,
+                        timeout = 1
+                    )
 
 global Serial_Commands
 Serial_Commands = {
@@ -226,8 +235,7 @@ class SettingPassword(SettingString):
 
 class Interface(RelativeLayout):
     robot_number = GetIniFile("robot.ini","robot")["robot_number"]
-    battery = 15
-    #battery = GetBattery()
+    battery = GetBattery(ser)
 
     def quit_program(self):
         sys.exit(0)
@@ -241,8 +249,8 @@ class Interface(RelativeLayout):
     # This should be called every x time
     def update(self, dt):
         self.ids.robot_number_label.text = 'Robot: ' + GetIniFile("robot.ini","robot")["robot_number"]
-        self.ids.battery_bar.value = 15 #GetBattery()
-        self.ids.battery_text.text = str(15) + '%' #str(GetBattery()) + '%'
+        self.ids.battery_bar.value = GetBattery(ser)
+        self.ids.battery_text.text = str(GetBattery(ser)) + '%'
         self.ids.time.text = GetDate()
 
     def update_settings(self, dt):
