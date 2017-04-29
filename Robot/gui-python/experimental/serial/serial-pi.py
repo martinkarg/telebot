@@ -15,11 +15,11 @@ def SendMessage(ser, message):
     ser.write(message)
     return True
 
-def GetMessage():
+def GetMessage(ser):
     serial_message = ser.readline()
     return serial_message
 
 if __name__ == '__main__':
-	ser = StartSerial()
-	SendMessage(ser,"Hello, World")
-	print GetMessage()
+  ser = StartSerial()
+  SendMessage(ser,"Hello, World")
+  print GetMessage(ser)

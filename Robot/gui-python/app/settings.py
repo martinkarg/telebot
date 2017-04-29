@@ -32,6 +32,8 @@ from kivy.properties import ObjectProperty
 # Import .json to configure settings screen
 from settingsjson import settings_json
 
+global Wireless_Interface
+Wireless_Interface = "wlp4s0"
 
 global Serial_Commands
 Serial_Commands = {
@@ -155,7 +157,7 @@ def GetDate():
     ScanWifi('wlan0')
 ''' 
 def ScanWifi(interface):
-    interface = 'wlp4s0'
+    interface = Wireless_Interface
     # Scan networks & generate a list of Cells
     networks = wifi.Cell.all(interface)
     # Declare list to hold SSID names, and fill it
