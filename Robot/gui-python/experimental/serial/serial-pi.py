@@ -1,8 +1,9 @@
 import serial
+import time
 
 def StartSerial():
     ser = serial.Serial(
-      port="/dev/ttyAMA0",
+      port="/dev/ttyS0",
       baudrate = 9600,
       parity = serial.PARITY_NONE,
       stopbits = serial.STOPBITS_ONE,
@@ -21,5 +22,7 @@ def GetMessage(ser):
 
 if __name__ == '__main__':
   ser = StartSerial()
-  SendMessage(ser,"Hello, World")
-  print GetMessage(ser)
+  while 1:
+    SendMessage(ser,"Hola")
+    time.sleep(5)
+    print GetMessage(ser)
