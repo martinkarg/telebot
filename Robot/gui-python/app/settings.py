@@ -191,6 +191,14 @@ def GetBattery():
     InfoLog("Battery read at: " + str(robot_battery) + "%")
     return 15
 
+def GetCall():
+    s = requests.get("https://connection-robertoruano.c9users.io/PHP/call.html")
+    string = str(s.content)
+    if "calling" in string:
+        return True
+    else:
+        return False
+
 ''' 
     Function: Gets file log.html, and returns the newest command
     Parameters: None
@@ -393,6 +401,10 @@ class Interface(RelativeLayout):
     def get_command(self, dt):
         GetCommand()
 
+    def get_call(self, dt):
+        if GetCall():
+            PlaceCall()
+
 '''
     Class: Main kivy app for GUI and managing time interruptions
 '''
@@ -414,6 +426,7 @@ class RobotApp(App):
         Clock.schedule_interval(app.update, 1.0 / 60.0)
         Clock.schedule_interval(app.update_battery, 150.0)
         Clock.schedule_interval(app.get_command, 1.0 / 60.0)
+        Clock.schedule_interval(app.get_call, 6.0 / 60.0)
 
         return app
 
@@ -539,7 +552,6 @@ if __name__ == '__main__':
     ConfigKivy()
     print Serial_Commands['forward']
     settings_json = ChangeSettings(settings_json)
-    PlaceCall()
     RobotApp().run()
     # while 1:
     #     SendMessage(ser,"Hola")
