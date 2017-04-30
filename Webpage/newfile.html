@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css"  media="screen,projection"/>
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <title>PRUEBAAAAA</title>
+    
+    <body background="bck.jpg" class="responsive-image" id="body">
+        <h1 id="welcome"></h1>
+        <div>
+            <button class="waves-effect waves-light btn" id="btn-open-room" >Open Room</button>
+            <button class="waves-effect waves-light btn" id="btn-join-room" >Join Room</button>
+            <button class="waves-effect waves-light btn" id="format">GIVE FORMAT</button>
+        </div>
+    <div class=container id="video-container">
+        
+    </div>
+        
+      </body>  
+    
+    
+    <script src="https://rtcmulticonnection.herokuapp.com/dist/RTCMultiConnection.min.js"></script>
+    <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+    <script src="DetectRTC.js"></script>
+    <script>
+        
+        
+       
+        var connection = new RTCMultiConnection();
+        var opened = false;
+        var joined = false;
+        // this line is VERY_important
+        connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+        
+        // all below lines are optional; however recommended.
+        
+        connection.session = {
+            audio: true,
+            video: true
+        };
+        
+        connection.sdpConstraints.mandatory = {
+            OfferToReceiveAudio: true,
+            OfferToReceiveVideo: true
+        };
+        
+        connection.mediaConstraints = {
+        audio: true,
+        video: {
+            mandatory: {
+                minWidth: 400,
+                maxWidth: 400,
+                minHeight: 400,
+                maxHeight: 400
+            },
+            optional: []
+            }
+        }
+        
+        connection.setDefaultEventsForMediaElement = null;
+        
+
+       
+        
+       
+        var predefinedRoomId = 'Qro6301';
+        
+        document.getElementById('btn-open-room').onclick = function() {
+            document.getElementById("welcome").innerHTML=predefinedRoomId;
+            opened=true;
+            console.log(joined + "   " + opened)
+            var counter = 0;
+            this.disabled = true;
+            // Parent <div> for videos
+            connection.openOrJoin( predefinedRoomId );
+            /*if(connection.onstream){
+                DetectRTC.load(function(){
+                    DetectRTC.MediaDevices.forEach(function(device){
+                        // skip audio devices
+                        if (device.kind.indexOf('video') != -1) {
+                            console.log(device.id);
+                            if (counter ==0){
+                                connection.mediaConstraints = {
+                                    audio: true,
+                                    video: {
+                                        mandatory: {
+                                            minWidth: 100,
+                                            maxWidth: 100,
+                                            minHeight: 100,
+                                            maxHeight: 100
+
+                                        },
+                                        optional: [{
+                                            facingMode: 'user' // or "application"
+                                        }]
+                                    }
+                                };
+                            } /*else if (counter==1){
+                                connection.mediaConstraints = {
+                                    video: {
+                                        mandatory: {
+                                            minWidth: 150,
+                                            maxWidth: 150,
+                                            minHeight: 150,
+                                            maxHeight: 150
+                                        },
+                                        optional: [{
+                                            facingMode: 'user' // or "application"
+                                        }]
+                                    }
+                                };
+                            }*/
+                           /* if (counter<2 ){
+                            connection.mediaConstraints.video.optional = [{sourceId: device.id}]; 
+                            connection.addStream({ video: true, audio:true }) ;
+                            counter ++;}*/
+                       //}});
+                      //  });             
+                    //  }
+                      
+          
+        };
+        
+        document.getElementById('btn-join-room').onclick = function() {
+            joined=true;
+            this.disabled = true;
+            connection.openOrJoin( predefinedRoomId );
+        };
+        
+        
+        document.getElementById("format").onclick = function(){
+            document.getElementById("format").disabled=true;
+            var videos = document.getElementsByTagName("video");
+            var firstvideo = $("video:first");
+            var secondvideo = $("video:eq(1)");
+            firstvideo.addClass("responsive-video");
+            firstvideo.height($(window).height());
+            secondvideo.addClass("responsive-video");
+            firstvideo.prop('autoplay', true);
+            secondvideo.prop('autoplay', true);
+            firstvideo.css({position: 'absolute', left:200})
+            secondvideo.css({position:'absolute', left:200})
+        }
+        
+        
+        connection.onstream = function(event){
+            var videos = document.getElementById("video-container");
+                if(event.type=== "local"){
+                    console.log("STREAM ID: " + event.streamid + "TYPE: " + event.type);
+                    videos.appendChild(event.mediaElement);
+                    
+                    DetectRTC.load(function() {
+                    var secondaryCamera = DetectRTC.videoInputDevices[1];
+                    if (!secondaryCamera) {
+                        alert('Please attach another camera device.');
+                        return;
+                    }
+                
+                    connection.mediaConstraints = {
+                        audio: true,
+                        video: {
+                            mandatory: {
+                                minWidth: 150,
+                                maxWidth: 150,
+                                minHeight: 150,
+                                maxHeight: 150
+                            },
+                            optional: [{
+                                sourceId: secondaryCamera.id
+                            }]
+                        }
+                    };
+                    
+                    connection.addStream({ video: true, audio:true });
+                    videos.appendChild(event.mediaElement);
+                    }); //end Detect rtc function
+                }//end if type local
+                else if(event.type==='remote'){
+                    console.log("THERE´S REMOTE CONNECTION!!!!!!!!")
+                    videos.appendChild(event.mediaElement);
+                }
+            
+            
+        } // end onstream function
+    </script>
+</html>

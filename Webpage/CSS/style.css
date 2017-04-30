@@ -1,0 +1,197 @@
+/* Imports */
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css");
+@import url("http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet");
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
+/*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////LOGIN FORM ////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+	.login-block {
+		width: 320px;
+		padding: 20px;
+		background: #fff;
+		border-radius: 5px;
+		border-top: 5px solid #005dff;
+		margin: 0 auto;
+	}
+
+	.login-block h1 {
+		text-align: center;
+		color: #000;
+		font-size: 18px;
+		text-transform: uppercase;
+		margin-top: 0;
+		margin-bottom: 20px;
+	}
+
+	.login-block input {
+		width: 100%;
+		height: 42px;
+		box-sizing: border-box;
+		border-radius: 5px;
+		border: 1px solid #ccc;
+		margin-bottom: 20px;
+		font-size: 14px;
+		font-family: Montserrat;
+		padding: 0 20px 0 50px;
+		outline: none;
+	}
+
+	.login-block #username {
+		background: #fff url('http://i.imgur.com/u0XmBmv.png') 20px top no-repeat;
+		background-size: 16px 80px;
+	}
+
+	.login-block #username:focus {
+		background-size: 16px 80px;
+	}
+
+	.login-block #password, #actual_password {
+		background: #fff url('http://i.imgur.com/Qf83FTt.png') 20px top no-repeat;
+		background-size: 16px 80px;
+	}
+
+	.login-block #password:focus, #actual_password:focus {
+		background-size: 16px 80px;
+	}
+
+	.login-block input:active, .login-block input:focus {
+		border: 1px solid #005dff;
+	}
+
+	.login-block button {
+		width: 100%;
+		height: 40px;
+		background: #005dff;
+		box-sizing: border-box;
+		border-radius: 5px;
+		border: 1px solid #005dff;
+		color: #fff;
+		font-weight: bold;
+		text-transform: uppercase;
+		font-size: 14px;
+		font-family: Montserrat;
+		outline: none;
+		cursor: pointer;
+	}
+
+	.login-block button:hover {
+		background: #4c8dff;
+	}
+	
+/* Register Form*/
+
+	.register-block {
+		width: 320px;
+		padding: 20px;
+		background: #fff;
+		border-radius: 5px;
+		border-top: 5px solid #005dff;
+		margin: 0 auto;
+	}
+
+	.register-block h1 {
+		text-align: center;
+		color: #000;
+		font-size: 18px;
+		text-transform: uppercase;
+		margin-top: 0;
+		margin-bottom: 20px;
+	}
+
+	.register-block input {
+		width: 100%;
+		height: 42px;
+		box-sizing: border-box;
+		border-radius: 5px;
+		border: 1px solid #ccc;
+		margin-bottom: 20px;
+		font-size: 14px;
+		font-family: Montserrat;
+		padding: 0 20px 0 50px;
+		outline: none;
+	}
+
+	.register-block #username {
+		background: #fff url('http://i.imgur.com/u0XmBmv.png') 20px top no-repeat;
+		background-size: 16px 80px;
+	}
+
+	.register-block #username:focus {
+		background-size: 16px 80px;
+	}
+	
+	.register-block #name, #last_name {
+		background: #fff url('http://i.imgur.com/u0XmBmv.png') 20px top no-repeat;
+		background-size: 16px 80px;
+	}
+
+	.register-block #name:focus, #last_name:focus {
+		background-size: 16px 80px;
+	}
+
+	.register-block #password, #password_confirm {
+		background: #fff url('http://i.imgur.com/Qf83FTt.png') 20px top no-repeat;
+		background-size: 16px 80px;
+	}
+
+	.register-block #password:focus, #password_confirm:focus {
+		background-size: 16px 80px;
+	}
+	
+	.register-block #mail {
+		background: #fff url('http://icons.iconarchive.com/icons/uiconstock/socialmedia/512/Email-icon.png') 20px center no-repeat;
+		background-size: 16px 16px;
+	}
+
+	.register-block #mail:focus {
+		background-size: 16px 16px;
+	}
+
+	.register-block input:active, .login-block input:focus {
+		border: 1px solid #005dff;
+	}
+
+	.register-block button {
+		width: 100%;
+		height: 40px;
+		background: #005dff;
+		box-sizing: border-box;
+		border-radius: 5px;
+		border: 1px solid #005dff;
+		color: #fff;
+		font-weight: bold;
+		text-transform: uppercase;
+		font-size: 14px;
+		font-family: Montserrat;
+		outline: none;
+		cursor: pointer;
+	}
+
+	.register-block button:hover {
+		background: #4c8dff;
+	}
+
+/*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////CONTENT BLOCK////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+	
+	.content_block {
+		max-width: 75%;
+		background-color: #E8E4E3;
+		border-radius: 0px;
+		margin: 0 auto;
+		height: 100vh;
+		font: Montserrat;
+		/*opacity: 0.5;
+        filter: alpha(opacity=50);
+				-moz-opacity: 0.5;
+				-khtml-opacity: 0.5;
+		opacity: 0.5;*/
+	}
+	
+	.content_block_2 {
+	    position: relative;
+        top: 4.7em;
+	}

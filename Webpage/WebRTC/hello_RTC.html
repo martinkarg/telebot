@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <title>Realtime communication with WebRTC</title>
+
+  <style type="text/css">
+  	video{
+  		width: 30%;
+  		/*filter: hue-rotate(180deg) saturate(100%);*/
+			 /*   -moz-filter: hue-rotate(180deg) saturate(200%);*/
+			 /*   -webkit-filter: hue-rotate(180deg) saturate(200%);*/
+  	}	
+  </style>>
+
+</head>
+
+<body>
+
+  <h1>Realtime communication with WebRTC</h1>
+
+  <video autoplay></video>
+
+  <script type="text/javascript">
+  	'use strict';
+
+	navigator.getUserMedia = navigator.getUserMedia ||
+	    navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+	
+	var constraints = {
+	  audio: false,
+	  video: true
+	};
+	var video = document.querySelector('video');
+	
+	function successCallback(stream) {
+	  window.stream = stream; // stream available to console
+	  if (window.URL) {
+	    video.src = window.URL.createObjectURL(stream);
+	  } else {
+	    video.src = stream;
+	  }
+	}
+	
+	function errorCallback(error) {
+	  console.log('navigator.getUserMedia error: ', error);
+	}
+	
+	navigator.getUserMedia(constraints, successCallback, errorCallback);
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        h1.hidden {
+        display: none;
+        }
+    </style>
+</head>
+<body>
+
+<input type="text" size="40" onkeypress="myFunction(event)">    
+
+<h1 id="demo"></h1>
+<script>
+    var ny= "s";
+function myFunction(event) {
+    var x = event.keyCode;               
+    var y = String.fromCharCode(x);
+    ny = ny.concat(y);
+    
+    document.getElementById("demo").innerHTML = "Character: " + ny;
+    
+}
+    
+</script>
+
+</body>
+</html>
