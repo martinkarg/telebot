@@ -141,6 +141,7 @@ def GetBattery():
     GetCommand()
 '''
 def GetCommand():
+    global Old_Commands
     string = ""
     s = requests.get("https://connection-robertoruano.c9users.io/PHP/log.html")
     string = str(s.content)
@@ -433,6 +434,5 @@ if __name__ == '__main__':
     #     SendMessage(ser,"Hola")
     #     time.sleep(5)
     #     print GetMessage(ser)
-    Old_Commands = ""
     while 1:
         print GetCommand()
