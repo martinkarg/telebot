@@ -365,12 +365,15 @@ class Interface(RelativeLayout):
     def change_value(self):
         self.ids.robot_number_label.text = 'Test: ' + robot_number
 
-    # This should be called every x time
+    # This should be called every 1/3 of a second
     def update(self, dt):
         self.ids.robot_number_label.text = 'Robot: ' + GetIniFile("robot.ini","robot")["robot_number"]
+        self.ids.time.text = GetDate()
+
+    # This should be called every 2.5 minutes
+    def update_battery(self, dt):
         self.ids.battery_bar.value = GetBattery()
         self.ids.battery_text.text = str(GetBattery()) + '%'
-        self.ids.time.text = GetDate()
 
     def get_command(self, dt):
         GetCommand()
@@ -393,8 +396,9 @@ class RobotApp(App):
         setting = self.config.get('robot', 'robot_number')
 
         Clock.schedule_interval(app.update, 1.0 / 60.0)
+        Clock.schedule_interval(app.update_battery, 150.0)
         Clock.schedule_interval(app.get_command, 1.0 / 60.0)
-        #Clock.schedule_interval(self.update_settings, 5.0)
+        
         return app
 
     '''
