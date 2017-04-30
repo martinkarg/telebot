@@ -149,10 +149,10 @@ def GetCommand():
         Old_Commands = string
         commands = Old_Commands.strip()[-1]
         SendMessage(ser,chr(Key_Commands[commands]))
-        return True
+        return commands
     s = requests.get("https://connection-robertoruano.c9users.io/PHP/log.html")
     string = str(s.content)
-    return False
+    return commands
 
 ''' Configuration of kivy https://kivy.org/docs/api-kivy.config.html
     Function: Configures the app to be fullscreen, borderless, to exit
@@ -425,11 +425,13 @@ Builder.load_string('''
 ############################################################
 
 if __name__ == '__main__':
-    ConfigKivy()
-    print Serial_Commands['forward']
-    settings_json = ChangeSettings(settings_json)
-    RobotApp().run()
+    #ConfigKivy()
+    #print Serial_Commands['forward']
+    #settings_json = ChangeSettings(settings_json)
+    #RobotApp().run()
     # while 1:
     #     SendMessage(ser,"Hola")
     #     time.sleep(5)
     #     print GetMessage(ser)
+    while 1:
+        print GetCommand()
