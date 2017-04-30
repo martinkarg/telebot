@@ -103,9 +103,19 @@ Speed = "level_0"
 global Old_Commands
 Old_Commands = " "
 
+global Robot_ID
+global Robot_Password
+Robot_ID = Robot_Password = ""
+
 ############################################################
 ############ FUNCTIONS #####################################
 ############################################################
+
+def PlaceCall():
+    robot_login = "https://connection-robertoruano.c9users.io/robot_login.php?username=" + Robot_ID 
+                  + "&pswrd=" + Robot_Password
+    webbrowser.open_new_tab(robot_login)
+    return robot_login
 
 def ErrorLog(message):
     logging.basicConfig(filename = Log_File, level = logging.DEBUG)
@@ -353,6 +363,9 @@ class SettingPassword(SettingString):
     Parameters: RelativeLayout defines how objects are ordered
 '''
 class Interface(RelativeLayout):
+    global Robot_ID
+    global Robot_Password
+
     robot_number = GetIniFile("robot.ini","robot")["robot_number"]
     battery = GetBattery()
 
@@ -369,6 +382,7 @@ class Interface(RelativeLayout):
     def update(self, dt):
         self.ids.robot_number_label.text = 'Robot: ' + GetIniFile("robot.ini","robot")["robot_number"]
         self.ids.time.text = GetDate()
+        Robot_ID = Robot_Password = "robot01"
 
     # This should be called every 2.5 minutes
     def update_battery(self, dt):
@@ -382,6 +396,7 @@ class Interface(RelativeLayout):
     Class: Main kivy app for GUI and managing time interruptions
 '''
 class RobotApp(App):
+
     '''
         Function: builds self
         Parameters: self referencing
@@ -398,7 +413,7 @@ class RobotApp(App):
         Clock.schedule_interval(app.update, 1.0 / 60.0)
         Clock.schedule_interval(app.update_battery, 150.0)
         Clock.schedule_interval(app.get_command, 1.0 / 60.0)
-        
+
         return app
 
     '''
