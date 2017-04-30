@@ -6,11 +6,11 @@ import ConfigParser
 from time import gmtime, strftime
 # Import library for reading networks and configuring current network
 import wifi
-
+# Import library for reading json data from .json files
 import json
-
+# Import library for serial communication
 import serial
-
+# Import library for using/processing system time
 import time
 
 # Import Kivy Super Objects 
@@ -66,6 +66,13 @@ Speed_Modes = {
 ############ FUNCTIONS #####################################
 ############################################################
 
+''' 
+    Function: Starts a serial object at 9600 baud rate with default 
+              settings
+    Parameters: None
+    Returns: Serial object ser
+    StartSerial()
+'''
 def StartSerial():
     ser = serial.Serial(
       port="/dev/ttyS0",
@@ -77,13 +84,36 @@ def StartSerial():
     )
     return ser
 
+''' 
+    Function: Sends a message to specified serial object
+    Parameters: Serial ser, String message
+    Returns: boolean True when done
+    SendMessage(ser, "hello")
+'''
 def SendMessage(ser, message):
     ser.write(message)
     return True
 
+''' 
+    Function: Gets a message at specified Serial object
+    Parameters: Serial ser
+    Returns: String serial_message
+    GetsMessage(ser)
+'''
 def GetMessage(ser):
     serial_message = ser.readline()
     return serial_message
+
+''' 
+    Function: Gets battery status from the serial data
+    Parameters: None
+    Returns: int battery_value
+    GetBattery()
+''' 
+def GetBattery():
+    SendMessage(ser, Serial_Commands["battery"])
+    robot_battery = GetMessage(ser)
+    return robot_battery
 
 ''' Configuration of kivy https://kivy.org/docs/api-kivy.config.html
     Function: Configures the app to be fullscreen, borderless, to exit
@@ -134,16 +164,6 @@ def GetSettings(ini_file, section):
     WiFi_Password = settings["wifi_password"]
     print Robot_Number
     return None
-
-''' 
-    Function: Gets battery status from the serial data
-    Parameters: None
-    Returns: int battery_value
-    GetBattery()
-''' 
-def GetBattery():
-    robot_battery = 15
-    return robot_battery
 
 ''' 
     Function: Gets current date and time
@@ -367,11 +387,11 @@ Builder.load_string('''
 
 if __name__ == '__main__':
     ser = StartSerial()
-    #ConfigKivy()
-    #print Serial_Commands['forward']
-    #settings_json = ChangeSettings(settings_json)
-    #RobotApp().run()
-    while 1:
-        SendMessage(ser,"Hola")
-        time.sleep(5)
-        print GetMessage(ser)
+    ConfigKivy()
+    print Serial_Commands['forward']
+    settings_json = ChangeSettings(settings_json)
+    RobotApp().run()
+    # while 1:
+    #     SendMessage(ser,"Hola")
+    #     time.sleep(5)
+    #     print GetMessage(ser)
