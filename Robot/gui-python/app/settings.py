@@ -32,6 +32,8 @@ from kivy.properties import ObjectProperty
 # Import .json to configure settings screen
 from settingsjson import settings_json
 
+global ser
+
 global Wireless_Interface
 Wireless_Interface = "wlp4s0"
 
@@ -62,7 +64,7 @@ Speed_Modes = {
 
 def StartSerial():
     ser = serial.Serial(
-      port="/dev/ttyAMA0",
+      port="/dev/ttyS0",
       baudrate = 9600,
       parity = serial.PARITY_NONE,
       stopbits = serial.STOPBITS_ONE,
@@ -70,16 +72,14 @@ def StartSerial():
       timeout = 1
     )
     return ser
-    
 
 def SendMessage(ser, message):
     ser.write(message)
     return True
 
-def GetMessage():
+def GetMessage(ser):
     serial_message = ser.readline()
     return serial_message
-
 
 ''' Configuration of kivy https://kivy.org/docs/api-kivy.config.html
     Function: Configures the app to be fullscreen, borderless, to exit
@@ -154,9 +154,9 @@ def GetDate():
     Function: Gets available WiFi networks
     Parameters: str interface (to use for scanning)
     Returns: list of strings with available SSID's
-    ScanWifi('wlan0')
+    ScanWifi()
 ''' 
-def ScanWifi(interface):
+def ScanWifi():
     interface = Wireless_Interface
     # Scan networks & generate a list of Cells
     networks = wifi.Cell.all(interface)
@@ -179,7 +179,7 @@ def ChangeSettings(settings_json):
     #print settings_json
     test = settings_json.split("\"insertion\"")
     #print "Split str: " + str(test[0]) + str(test[1])
-    SSID_List = ScanWifi('abcd')
+    SSID_List = ScanWifi()
     test = ''
     for ssid in SSID_List:
         ssid = '\"' + ssid + '\"'
@@ -362,7 +362,12 @@ Builder.load_string('''
 ############################################################
 
 if __name__ == '__main__':
-    ConfigKivy()
-    print Serial_Commands['forward']
-    settings_json = ChangeSettings(settings_json)
-    RobotApp().run()
+    ser = StartSerial()
+    #ConfigKivy()
+    #print Serial_Commands['forward']
+    #settings_json = ChangeSettings(settings_json)
+    #RobotApp().run()
+    while 1:
+        SendMessage(ser,"Hola")
+        time.sleep(5)
+        print GetMessage(ser)
