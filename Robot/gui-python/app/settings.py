@@ -378,6 +378,9 @@ class RobotApp(App):
             'options_wifi': 'Some WiFi',
             'wifi_password': ''})
 
+    def update_settings():
+        pass
+
     '''
         Function: builds settings screen
         Parameters: self referencing, global settings object
