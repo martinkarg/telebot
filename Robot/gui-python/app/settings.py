@@ -407,9 +407,10 @@ class Interface(RelativeLayout):
         GetCommand()
 
     def get_call(self, dt):
-        if GetCall() && !InCall:
-            InCall = False
-            PlaceCall()
+        if not(InCall):
+            if GetCall():
+                InCall = False
+                PlaceCall()
 
 '''
     Class: Main kivy app for GUI and managing time interruptions
