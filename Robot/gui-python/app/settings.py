@@ -551,10 +551,10 @@ Builder.load_string('''
 ############################################################
 
 if __name__ == '__main__':
-    # ConfigKivy()
-    # print Serial_Commands['forward']
-    # settings_json = ChangeSettings(settings_json)
-    # RobotApp().run()
+    ConfigKivy()
+    print Serial_Commands['forward']
+    settings_json = ChangeSettings(settings_json)
+    RobotApp().run()
     # while 1:
     #     SendMessage(ser,"Hola")
     #     time.sleep(5)
@@ -564,4 +564,3 @@ if __name__ == '__main__':
     # PlaceCall()
     # while 1:
     #     GetCall()
-
