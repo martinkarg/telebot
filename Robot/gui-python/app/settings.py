@@ -195,8 +195,10 @@ def GetCall():
     s = requests.get("https://connection-robertoruano.c9users.io/PHP/call.html")
     string = str(s.content)
     if "calling" in string:
+        InfoLog("Received call")
         return True
     else:
+        InfoLog("No new call")
         return False
 
 ''' 
