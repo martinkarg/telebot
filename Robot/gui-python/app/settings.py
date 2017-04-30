@@ -39,7 +39,7 @@ from settingsjson import settings_json
 global ser
 
 global Wireless_Interface
-Wireless_Interface = "wlp4s0"
+Wireless_Interface = "wlan0"
 
 global Serial_Commands
 Serial_Commands = {
