@@ -433,5 +433,6 @@ if __name__ == '__main__':
     #     SendMessage(ser,"Hola")
     #     time.sleep(5)
     #     print GetMessage(ser)
+    Old_Commands = ""
     while 1:
         print GetCommand()
