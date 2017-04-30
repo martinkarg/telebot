@@ -13,6 +13,10 @@ import serial
 # Import library for using/processing system time
 import time
 
+import selenium
+
+import requests
+
 # Import Kivy Super Objects 
 from kivy.config import Config 
 from kivy.app import App
@@ -61,6 +65,19 @@ Speed_Modes = {
     'level_2': 2,
     'level_3': 3
 }
+
+global Key_Commands
+Key_Commands = {
+        'w': Serial_Commands['forward'],
+        's': Serial_Commands['stop'],
+        'a': Serial_Commands['left'],
+        'd': Serial_Commands['right'],
+        'q': Serial_Commands['anti_clockwise'],
+        'e': Serial_Commands['clockwise']
+    }
+
+global Old_Commands
+Old_Commands = ""
 
 ############################################################
 ############ FUNCTIONS #####################################
@@ -116,6 +133,26 @@ def GetBattery():
     SendMessage(ser, chr(Serial_Commands["battery"]))
     robot_battery = GetMessage(ser)
     return 15
+
+''' 
+    Function: Gets file log.html, and returns the newest command
+    Parameters: None
+    Returns: char commands
+    GetCommand()
+'''
+def GetCommand():
+    string = ""
+    s = requests.get("https://connection-robertoruano.c9users.io/PHP/log.html")
+    string = str(s.content)
+    if len(string)>len(Old_Commands):
+        character_numbers = len(Old_Commands)-len(string)
+        Old_Commands = string
+        commands = Old_Commands.strip()[-1]
+        SendMessage(ser,chr(Key_Commands[commands]))
+        return True
+    s = requests.get("https://connection-robertoruano.c9users.io/PHP/log.html")
+    string = str(s.content)
+    return False
 
 ''' Configuration of kivy https://kivy.org/docs/api-kivy.config.html
     Function: Configures the app to be fullscreen, borderless, to exit
