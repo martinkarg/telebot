@@ -342,7 +342,7 @@ class Interface(RelativeLayout):
         self.ids.battery_text.text = str(GetBattery()) + '%'
         self.ids.time.text = GetDate()
 
-    def get_command():
+    def get_command(self,dt):
         GetCommand()
 
 '''
