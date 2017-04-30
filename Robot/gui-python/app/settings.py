@@ -562,6 +562,6 @@ if __name__ == '__main__':
     # while 1:
     #     print GetCommand()
     # PlaceCall()
-    while 1:
-        GetCall()
+    # while 1:
+    #     GetCall()
 

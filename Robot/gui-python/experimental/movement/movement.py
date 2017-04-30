@@ -26,7 +26,7 @@ Serial_Commands = {
 
 global Speed_Modes
 Speed_Modes = {
-    'level_0': 3,
+    'level_0': 0,
     'level_1': 1,
     'level_2': 2,
     'level_3': 3
