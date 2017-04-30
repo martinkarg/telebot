@@ -115,7 +115,7 @@ def GetMessage(ser):
 def GetBattery():
     SendMessage(ser, Serial_Commands["battery"])
     robot_battery = GetMessage(ser)
-    return robot_battery
+    return 15
 
 ''' Configuration of kivy https://kivy.org/docs/api-kivy.config.html
     Function: Configures the app to be fullscreen, borderless, to exit
