@@ -392,8 +392,8 @@ class RobotApp(App):
         # This just gets the robot_number current setting from self.config
         setting = self.config.get('robot', 'robot_number')
 
-        #Clock.schedule_interval(app.get_command, 1.0 / 60.0)
         Clock.schedule_interval(app.update, 1.0 / 60.0)
+        Clock.schedule_interval(app.get_command, 1.0 / 60.0)
         #Clock.schedule_interval(self.update_settings, 5.0)
         return app
 
@@ -435,7 +435,8 @@ class RobotApp(App):
         if(key == 'options_wifi'):
             InfoLog("Changed WiFi to: " + GetIniFile("robot.ini","robot")["options_wifi"])
             #print "Changing WiFi"
-            #ChangeWifi(GetIniFile("robot.ini","robot")["options_wifi"],GetIniFile("robot.ini","robot")["wifi_password"])
+            #ChangeWifi(GetIniFile("robot.ini","robot")["options_wifi"],
+            #           GetIniFile("robot.ini","robot")["wifi_password"])
 
 ############################################################
 ############# KIVY BUILDER #################################
