@@ -143,6 +143,7 @@ def GetBattery():
 def GetCommand():
     global Old_Commands
     string = ""
+    commands = "n"
     s = requests.get("https://connection-robertoruano.c9users.io/PHP/log.html")
     string = str(s.content)
     if len(string)>len(Old_Commands):
