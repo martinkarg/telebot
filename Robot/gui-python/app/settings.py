@@ -16,6 +16,10 @@ import time
 import selenium
 # Import library to make web requests
 import requests
+# Import library used for managing .log files
+import logging
+# Import library used to extract, format and print stack traces
+import traceback
 
 # Import Kivy Super Objects 
 from kivy.config import Config 
@@ -39,6 +43,9 @@ from kivy.properties import ObjectProperty
 
 # Import .json to configure settings screen
 from settingsjson import settings_json
+
+global Log_File
+Log_File = "telebot_error.log"
 
 global ser
 
@@ -100,6 +107,24 @@ Old_Commands = " "
 ############ FUNCTIONS #####################################
 ############################################################
 
+def ErrorLog(message):
+    logging.basicConfig(filename = Log_File, level = logging.DEBUG)
+    logging.warning(strftime(" %d-%m-%Y %H:%M:%S -> ", gmtime()) + 
+                    str(message))
+    return None
+
+def DebugLog(message):
+    logging.basicConfig(filename= Log_File, level = logging.DEBUG)
+    logging.debug(strftime(" %d-%m-%Y %H:%M:%S -> ", gmtime()) + 
+                  str(message))
+    return None
+    
+def InfoLog(message):
+    logging.basicConfig(filename = Log_File, level = logging.DEBUG)
+    logging.info(strftime(" %d-%m-%Y %H:%M:%S -> ", gmtime()) + 
+                 str(message))
+    return None
+
 ''' 
     Function: Starts a serial object at 9600 baud rate with default 
               settings
@@ -150,6 +175,7 @@ def GetMessage(ser):
 def GetBattery():
     SendMessage(ser, chr(Serial_Commands["battery"]))
     robot_battery = GetMessage(ser)
+    InfoLog("Battery read at: " + str(robot_battery) + "%")
     return 15
 
 ''' 
@@ -169,6 +195,7 @@ def GetCommand():
         Old_Commands = string
         commands = Old_Commands.strip()[-1]
         SendMessage(ser,chr(Key_Commands[commands] + Speed_Modes[Speed]))
+        InfoLog("Read and sent command: " +  commands)
         return commands
     s = requests.get("https://connection-robertoruano.c9users.io/PHP/log.html")
     string = str(s.content)
@@ -249,6 +276,7 @@ def ScanWifi():
         SSID_List.append(str(network.ssid) + ', ' + str(network.encryption_type) 
                          + ', ' + str(network.quality))
     # Return list with SSID strings
+    InfoLog("Scanned networks: " + str(SSID_List))
     return SSID_List
 
 ''' 
@@ -344,7 +372,7 @@ class Interface(RelativeLayout):
         self.ids.battery_text.text = str(GetBattery()) + '%'
         self.ids.time.text = GetDate()
 
-    def get_command(self,dt):
+    def get_command(self, dt):
         GetCommand()
 
 '''
@@ -405,8 +433,9 @@ class RobotApp(App):
                          key, value):
         print config, section, key, value
         if(key == 'options_wifi'):
-            print "Changing WiFi"
-            ChangeWifi(GetIniFile("robot.ini","robot")["options_wifi"],GetIniFile("robot.ini","robot")["wifi_password"])
+            InfoLog("Changed WiFi to: " + GetIniFile("robot.ini","robot")["options_wifi"])
+            #print "Changing WiFi"
+            #ChangeWifi(GetIniFile("robot.ini","robot")["options_wifi"],GetIniFile("robot.ini","robot")["wifi_password"])
 
 ############################################################
 ############# KIVY BUILDER #################################
