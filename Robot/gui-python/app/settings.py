@@ -37,6 +37,7 @@ from kivy.properties import ObjectProperty
 from settingsjson import settings_json
 
 global ser
+ser = StartSerial()
 
 global Wireless_Interface
 Wireless_Interface = "wlp4s0"
@@ -386,7 +387,6 @@ Builder.load_string('''
 ############################################################
 
 if __name__ == '__main__':
-    ser = StartSerial()
     ConfigKivy()
     print Serial_Commands['forward']
     settings_json = ChangeSettings(settings_json)
