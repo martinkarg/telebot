@@ -364,7 +364,7 @@ class RobotApp(App):
 
         #Clock.schedule_interval(app.get_command, 1.0 / 60.0)
         Clock.schedule_interval(app.update, 1.0 / 60.0)
-        Clock.schedule_interval(self.update_settings, 5.0)
+        #Clock.schedule_interval(self.update_settings, 5.0)
         return app
 
     '''
