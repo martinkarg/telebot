@@ -9,7 +9,7 @@ while(1):
     if len(string)>len(old_string):
         character_numbers = len(old_string)-len(string)
         old_string= string
-        commands=old_string[(character_numbers-1):-1]
+        commands=old_string.strip()[-1]
         print(commands)
     s = requests.get("https://connection-robertoruano.c9users.io/PHP/log.html")
     string = str(s.content)
