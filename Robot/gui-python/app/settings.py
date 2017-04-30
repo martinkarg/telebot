@@ -111,6 +111,9 @@ global Robot_ID
 global Robot_Password
 Robot_ID = Robot_Password = "robot01"
 
+global InCall
+InCall = False
+
 ############################################################
 ############ FUNCTIONS #####################################
 ############################################################
@@ -404,7 +407,8 @@ class Interface(RelativeLayout):
         GetCommand()
 
     def get_call(self, dt):
-        if GetCall():
+        if GetCall() && !InCall:
+            InCall = False
             PlaceCall()
 
 '''
@@ -428,7 +432,7 @@ class RobotApp(App):
         Clock.schedule_interval(app.update, 1.0 / 60.0)
         Clock.schedule_interval(app.update_battery, 150.0)
         Clock.schedule_interval(app.get_command, 1.0 / 60.0)
-        Clock.schedule_interval(app.get_call, 6.0 / 60.0)
+        #Clock.schedule_interval(app.get_call, 6.0 / 60.0)
 
         return app
 
