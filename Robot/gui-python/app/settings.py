@@ -37,7 +37,6 @@ from kivy.properties import ObjectProperty
 from settingsjson import settings_json
 
 global ser
-ser = StartSerial()
 
 global Wireless_Interface
 Wireless_Interface = "wlp4s0"
@@ -84,6 +83,8 @@ def StartSerial():
       timeout = 1
     )
     return ser
+
+ser = StartSerial()
 
 ''' 
     Function: Sends a message to specified serial object
