@@ -13,12 +13,12 @@ global ser
 
 global Serial_Commands
 Serial_Commands = {
-    'forward': 16,
-    'right': 32,
-    'left': 48,
-    'clockwise': 64,
-    'anti_clockwise': 80,
-    'stop': 96,
+    'forward': 0b00010000,
+    'right': 0b00110000,
+    'left': 0b01000000,
+    'clockwise': 0b01010000,
+    'anti_clockwise': 0b01100000,
+    'stop': 0b10000000,
     'sensor_1': 112,
     'sensor_2': 128,
     'battery': 144
@@ -26,7 +26,7 @@ Serial_Commands = {
 
 global Speed_Modes
 Speed_Modes = {
-    'level_0': 0,
+    'level_0': 3,
     'level_1': 1,
     'level_2': 2,
     'level_3': 3
