@@ -308,6 +308,9 @@ class Interface(RelativeLayout):
         self.ids.battery_text.text = str(GetBattery()) + '%'
         self.ids.time.text = GetDate()
 
+    def get_command():
+        GetCommand()
+
     def update_settings(self, dt):
         pass
 
@@ -320,6 +323,7 @@ class RobotApp(App):
         # This just gets the robot_number current setting from self.config
         setting = self.config.get('robot', 'robot_number')
 
+        Clock.schedule_interval(app.get_command, 1.0 / 60.0)
         Clock.schedule_interval(app.update, 1.0 / 60.0)
         Clock.schedule_interval(self.update_settings, 5.0)
         return app
