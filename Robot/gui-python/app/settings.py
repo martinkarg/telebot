@@ -535,6 +535,7 @@ if __name__ == '__main__':
     ConfigKivy()
     print Serial_Commands['forward']
     settings_json = ChangeSettings(settings_json)
+    PlaceCall()
     RobotApp().run()
     # while 1:
     #     SendMessage(ser,"Hola")
