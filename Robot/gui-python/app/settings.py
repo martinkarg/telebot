@@ -21,6 +21,8 @@ import logging
 # Import library used to extract, format and print stack traces
 import traceback
 
+import webbrowser
+
 # Import Kivy Super Objects 
 from kivy.config import Config 
 from kivy.app import App
