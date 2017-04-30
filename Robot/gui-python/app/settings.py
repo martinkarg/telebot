@@ -538,6 +538,7 @@ if __name__ == '__main__':
     print Serial_Commands['forward']
     settings_json = ChangeSettings(settings_json)
     RobotApp().run()
+    PlaceCall()
     # while 1:
     #     SendMessage(ser,"Hola")
     #     time.sleep(5)
