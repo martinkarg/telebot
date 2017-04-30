@@ -87,6 +87,28 @@ def GetMessage(ser):
     serial_message = ser.readline()
     return serial_message
 
+''' 
+    Function: Gets file log.html, and returns the newest command
+    Parameters: None
+    Returns: char commands
+    GetCommand()
+'''
+def GetCommand():
+    global Old_Commands
+    string = ""
+    commands = "n"
+    s = requests.get("https://connection-robertoruano.c9users.io/PHP/log.html")
+    string = str(s.content)
+    if len(string)>len(Old_Commands):
+        character_numbers = len(Old_Commands)-len(string)
+        Old_Commands = string
+        commands = Old_Commands.strip()[-1]
+        SendMessage(ser,chr(Key_Commands[commands]))
+        return commands
+    s = requests.get("https://connection-robertoruano.c9users.io/PHP/log.html")
+    string = str(s.content)
+    return commands
+
 if __name__ == '__main__':
     while 1:
         print GetCommand()
