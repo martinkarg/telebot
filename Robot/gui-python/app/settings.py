@@ -11,6 +11,8 @@ import json
 
 import serial
 
+import time
+
 # Import Kivy Super Objects 
 from kivy.config import Config 
 from kivy.app import App
