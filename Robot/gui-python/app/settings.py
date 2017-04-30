@@ -113,7 +113,7 @@ def GetMessage(ser):
     GetBattery()
 ''' 
 def GetBattery():
-    SendMessage(ser, str(unichr(Serial_Commands["battery"])))
+    SendMessage(ser, chr(Serial_Commands["battery"]))
     robot_battery = GetMessage(ser)
     return 15
 
