@@ -208,6 +208,7 @@ def GetCommand():
         return commands
     s = requests.get("https://connection-robertoruano.c9users.io/PHP/log.html")
     string = str(s.content)
+    InfoLog("No new command")
     return commands
 
 ''' Configuration of kivy https://kivy.org/docs/api-kivy.config.html
@@ -362,9 +363,6 @@ class SettingPassword(SettingString):
     Parameters: RelativeLayout defines how objects are ordered
 '''
 class Interface(RelativeLayout):
-    global Robot_ID
-    global Robot_Password
-
     robot_number = GetIniFile("robot.ini","robot")["robot_number"]
     battery = GetBattery()
 
@@ -538,7 +536,6 @@ if __name__ == '__main__':
     print Serial_Commands['forward']
     settings_json = ChangeSettings(settings_json)
     RobotApp().run()
-    PlaceCall()
     # while 1:
     #     SendMessage(ser,"Hola")
     #     time.sleep(5)
