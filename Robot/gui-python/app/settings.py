@@ -9,6 +9,8 @@ import wifi
 
 import json
 
+import serial
+
 # Import Kivy Super Objects 
 from kivy.config import Config 
 from kivy.app import App
