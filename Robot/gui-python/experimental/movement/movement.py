@@ -103,7 +103,7 @@ def GetCommand():
         character_numbers = len(Old_Commands)-len(string)
         Old_Commands = string
         commands = Old_Commands.strip()[-1]
-        SendMessage(ser,chr(Key_Commands[commands]))
+        SendMessage(ser,chr(Key_Commands[commands] + Speed_Modes['level_0']))
         return commands
     s = requests.get("https://connection-robertoruano.c9users.io/PHP/log.html")
     string = str(s.content)

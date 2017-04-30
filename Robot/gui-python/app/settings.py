@@ -48,6 +48,7 @@ Wireless_Interface = "wlan0"
 global Serial_Commands
 Serial_Commands = {
     'forward': 16,
+    'backward': 150,
     'right': 32,
     'left': 48,
     'clockwise': 64,
@@ -85,7 +86,8 @@ Key_Commands = {
         'a': Serial_Commands['left'],
         'd': Serial_Commands['right'],
         'q': Serial_Commands['anti_clockwise'],
-        'e': Serial_Commands['clockwise']
+        'e': Serial_Commands['clockwise'],
+        'x': Serial_Commands['backward']
     }
 
 global Speed
