@@ -125,7 +125,7 @@ def PlaceCall():
     robot_login = "https://connection-robertoruano.c9users.io/robot_login.php?username=" + Robot_ID + "&pswrd=" + Robot_Password
     os.system("sudo su -c \"chromium-browser '" + robot_login + "'\" -s /bin/sh pi &")
     # Full command:
-    # sudo su -c "chromium-browser 'https://connection-robertoruano.c9users.io/robot_login.php?username=robot01&pswrd=robot01'" -s /bin/sh pi &
+    # sudo su -c "chromium-browser 'https://connection-robertoruano.c9users.io/robot_login.php?username=robot01&pswrd=robot01' --start-fullscreen" -s /bin/sh pi &
     return robot_login
 
 def ErrorLog(message):
@@ -198,6 +198,24 @@ def GetBattery():
     robot_battery = GetMessage(ser)
     InfoLog("Battery read at: " + str(robot_battery) + "%")
     return 15
+
+def SetBattery(battery):
+    r = requests.get("https://connection-robertoruano.c9users.io/PHP/set_battery.php?battery=" + str(battery))
+    if r.status_code is 200:
+        InfoLog("Succesfully set battery in web app")
+        return True
+    else
+        ErrorLog("Failed setting battery in web app with error code: " + string(r.status_code))
+        return False
+
+def SetSensor(sensor):
+    r = requests.get("https://connection-robertoruano.c9users.io/PHP/set_sensor.php?sensor=" + str(sensor))
+    if r.status_code is 200:
+        InfoLog("Succesfully set sensor in web app")
+        return True
+    else
+        ErrorLog("Failed setting sensor in web app with error code: " + string(r.status_code))
+        return False
 
 def GetCall():
     global InCall
