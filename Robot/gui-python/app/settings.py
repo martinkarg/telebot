@@ -399,6 +399,8 @@ class SettingPassword(SettingString):
     Parameters: RelativeLayout defines how objects are ordered
 '''
 class Interface(RelativeLayout):
+    global InCall
+
     robot_number = GetIniFile("robot.ini","robot")["robot_number"]
     battery = 15 #GetBattery()
 
@@ -426,8 +428,10 @@ class Interface(RelativeLayout):
         GetCommand()
 
     def get_call(self, dt):
-        if GetCall():
-            PlaceCall()
+        if InCall is False:
+            GetCall()
+        else:
+            DropCall()
 
 '''
     Class: Main kivy app for GUI and managing time interruptions
@@ -450,7 +454,7 @@ class RobotApp(App):
         Clock.schedule_interval(app.update, 1.0 / 60.0)
         #Clock.schedule_interval(app.update_battery, 150.0)
         Clock.schedule_interval(app.get_command, 1.0 / 60.0)
-        #Clock.schedule_interval(app.get_call, 6.0 / 60.0)
+        Clock.schedule_interval(app.get_call, 6.0 / 60.0)
 
         return app
 
@@ -573,10 +577,10 @@ Builder.load_string('''
 ############################################################
 
 if __name__ == '__main__':
-    # ConfigKivy()
-    # print Serial_Commands['forward']
-    # settings_json = ChangeSettings(settings_json)
-    # RobotApp().run()
+    ConfigKivy()
+    print Serial_Commands['forward']
+    settings_json = ChangeSettings(settings_json)
+    RobotApp().run()
     # while 1:
     #     SendMessage(ser,"Hola")
     #     time.sleep(5)
@@ -584,8 +588,8 @@ if __name__ == '__main__':
     # while 1:
     #     print GetCommand()
     # PlaceCall()
-    while 1:
-        if InCall is False:
-            GetCall()
-        else:
-            DropCall()
+    # while 1:
+    #     if InCall is False:
+    #         GetCall()
+    #     else:
+    #         DropCall()
