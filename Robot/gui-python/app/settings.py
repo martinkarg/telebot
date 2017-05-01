@@ -198,6 +198,7 @@ def GetBattery():
     return 15
 
 def GetCall():
+    global InCall
     if InCall is False:
         s = requests.get("https://connection-robertoruano.c9users.io/PHP/call.html")
         string = str(s.content)
