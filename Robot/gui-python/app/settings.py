@@ -393,7 +393,7 @@ class SettingPassword(SettingString):
 '''
 class Interface(RelativeLayout):
     robot_number = GetIniFile("robot.ini","robot")["robot_number"]
-    battery = GetBattery()
+    battery = 15 #GetBattery()
 
     def quit_program(self):
         sys.exit(0)
