@@ -204,7 +204,7 @@ def SetBattery(battery):
     if r.status_code is 200:
         InfoLog("Succesfully set battery in web app")
         return True
-    else
+    else:
         ErrorLog("Failed setting battery in web app with error code: " + string(r.status_code))
         return False
 
@@ -213,7 +213,7 @@ def SetSensor(sensor):
     if r.status_code is 200:
         InfoLog("Succesfully set sensor in web app")
         return True
-    else
+    else:
         ErrorLog("Failed setting sensor in web app with error code: " + string(r.status_code))
         return False
 
@@ -598,6 +598,7 @@ Builder.load_string('''
 ############################################################
 
 if __name__ == '__main__':
+    SetBattery(45)
     ConfigKivy()
     print Serial_Commands['forward']
     settings_json = ChangeSettings(settings_json)
