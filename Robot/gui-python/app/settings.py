@@ -128,6 +128,10 @@ def PlaceCall():
     # sudo su -c "chromium-browser 'https://connection-robertoruano.c9users.io/robot_login.php?username=robot01&pswrd=robot01' --start-fullscreen" -s /bin/sh pi &
     return robot_login
 
+def KillCall():
+    os.system("killall chromium-browser")
+    return None
+
 def ErrorLog(message):
     logging.basicConfig(filename = Log_File, level = logging.DEBUG)
     logging.warning(strftime(" %d-%m-%Y %H:%M:%S -> ", gmtime()) + 
@@ -247,6 +251,7 @@ def DropCall():
     if "none" in string:
         InfoLog("Dropped call")
         InCall = False
+        KillCall()
         return False
     else:
         InCall = True
