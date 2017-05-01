@@ -199,22 +199,29 @@ def GetBattery():
 
 def GetCall():
     global InCall
-    if InCall is False:
-        s = requests.get("https://connection-robertoruano.c9users.io/PHP/call.html")
-        string = str(s.content)
-        if "calling" in string:
-            InfoLog("Received call")
-            InCall = True
-            return True
-        else:
-            InfoLog("No new call")
-            InCall = False
-            return False
+    s = requests.get("https://connection-robertoruano.c9users.io/PHP/call.html")
+    string = str(s.content)
+    if "calling" in string:
+        InfoLog("Received call")
+        InCall = True
+        return True
     else:
+        InfoLog("No new call")
+        InCall = False
         return False
 
 def DropCall():
+    global InCall
     InCall = False
+    s = requests.get("https://connection-robertoruano.c9users.io/PHP/call.html")
+    string = str(s.content)
+    if "none" in string:
+        InfoLog("Dropped call")
+        InCall = False
+        return False
+    else:
+        InCall = True
+        return True
 
 ''' 
     Function: Gets file log.html, and returns the newest command
@@ -578,4 +585,7 @@ if __name__ == '__main__':
     #     print GetCommand()
     # PlaceCall()
     while 1:
-        GetCall()
+        if InCall is False:
+            GetCall()
+        else:
+            DropCall()
