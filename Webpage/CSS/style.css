@@ -1,6 +1,6 @@
 /* Imports */
 @import url("//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css");
-@import url("http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet");
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet");
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
 /*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -10,10 +10,13 @@
 	.login-block {
 		width: 320px;
 		padding: 20px;
-		background: #fff;
+		background: rgba(255, 255, 255, 0.7);
 		border-radius: 5px;
-		border-top: 5px solid #005dff;
+		border-top: 5px solid rgba(0, 93, 255, 0.6);
+		border-bottom : 5px solid rgba(0, 93, 255, 0.6);
 		margin: 0 auto;
+		box-shadow: 0px 0px 20px 10px #777777;
+
 	}
 
 	.login-block h1 {
@@ -36,10 +39,15 @@
 		font-family: Montserrat;
 		padding: 0 20px 0 50px;
 		outline: none;
+		
+	}
+	
+	#username{
+		opacity: 1.0;
 	}
 
 	.login-block #username {
-		background: #fff url('http://i.imgur.com/u0XmBmv.png') 20px top no-repeat;
+		background: #fff url('https://i.imgur.com/u0XmBmv.png') 20px top no-repeat;
 		background-size: 16px 80px;
 	}
 
@@ -48,7 +56,7 @@
 	}
 
 	.login-block #password, #actual_password {
-		background: #fff url('http://i.imgur.com/Qf83FTt.png') 20px top no-repeat;
+		background: #fff url('https://i.imgur.com/Qf83FTt.png') 20px top no-repeat;
 		background-size: 16px 80px;
 	}
 
@@ -194,4 +202,48 @@
 	.content_block_2 {
 	    position: relative;
         top: 4.7em;
+	}
+	
+	
+	body{
+		margin:0;
+		padding:0;
+		height:100%;
+	}
+	
+	#main{
+		padding:10px;
+		padding-bottom: 120px;
+	}
+	
+	#footer{
+		position: absolute;
+		bottom:0;
+		width:100%;
+		background: #0d2d5f;
+	}
+	
+	#login-footer{
+		margin-bottom: 0px;
+	}
+	
+	#tec{
+		margin : 5px;
+		height: 150px;
+		background-size: contain;
+	}
+	
+	#container{
+		min-height: 100%;
+		position: relative;
+	}
+	
+	.footer-names{
+		font-style: italic;
+		font-weight: bold;
+	}
+	
+	body{
+		background-image: url("../log_bck.jpg");
+		background-size: cover;
 	}

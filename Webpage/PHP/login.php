@@ -72,7 +72,7 @@
 		else 
 		{
 			$msg = "Ese usuario no existe";
-			header( 'Location: register.php' );
+			header( 'Location: login.php' );
 		}
 		
 	}

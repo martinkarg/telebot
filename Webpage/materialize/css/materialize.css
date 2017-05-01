@@ -3391,6 +3391,12 @@ nav ul a span.badge {
   margin-bottom: 20px;
 }
 
+.row-footer {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0px;
+}
+
 .row:after {
   content: "";
   display: table;

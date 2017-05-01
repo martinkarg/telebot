@@ -38,6 +38,15 @@
         var connection = new RTCMultiConnection();
         var opened = false;
         var joined = false;
+        
+        $(document).ready(function(){
+            connection.DetectRTC.MediaDevices.forEach(function(device) {
+                // device.deviceId
+                // device.kind == 'audioinput' || 'audiooutput' || 'audio'
+                console.log("device: " + device.kind + '   ' + device.deviceId);
+                
+            });
+        });
         // this line is VERY_important
         connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
         
@@ -157,7 +166,12 @@
                 if(event.type=== "local"){
                     console.log("STREAM ID: " + event.streamid + "TYPE: " + event.type);
                     videos.appendChild(event.mediaElement);
-                    
+                    connection.DetectRTC.MediaDevices.forEach(function(device) {
+                // device.deviceId
+                // device.kind == 'audioinput' || 'audiooutput' || 'audio'
+                console.log("device: " + device.kind + '   ' + device.deviceId);
+                
+                    });
                     DetectRTC.load(function() {
                     var secondaryCamera = DetectRTC.videoInputDevices[1];
                     if (!secondaryCamera) {
