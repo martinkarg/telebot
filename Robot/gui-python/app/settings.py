@@ -64,11 +64,11 @@ Serial_Commands = {
     'clockwise': 0b01010000,
     'anti_clockwise': 0b01100000,
     'stop': 0b10000000,
-    'sensor_1': 0b10010000,
-    'sensor_2': 0b10100000,
-    'sensor_3': 0b10110000,
-    'sensor_4': 0b11000000,
-    'sensor_5': 0b11010000,
+    'sensor_0': 0b10010000,
+    'sensor_1': 0b10100000,
+    'sensor_2': 0b10110000,
+    'sensor_3': 0b11000000,
+    'sensor_4': 0b11010000,
     'sensor_5': 0b11100000,
     'battery': 0b10000000
 }
@@ -197,6 +197,14 @@ def GetBattery():
     SendMessage(ser, chr(Serial_Commands["battery"]))
     robot_battery = GetMessage(ser)
     InfoLog("Battery read at: " + str(robot_battery) + "%")
+    SetBattery(robot_battery)
+    return 15
+
+def GetSensor():
+    SendMessage(ser, chr(Serial_Commands["sensor_0"]))
+    sensor_data = GetMessage(ser)
+    InfoLog("Sensor 0 read at: " + str(sensor_data) + "%")
+    SetSensor(sensor_data)
     return 15
 
 def SetBattery(battery):
@@ -598,7 +606,6 @@ Builder.load_string('''
 ############################################################
 
 if __name__ == '__main__':
-    SetBattery(45)
     ConfigKivy()
     print Serial_Commands['forward']
     settings_json = ChangeSettings(settings_json)
