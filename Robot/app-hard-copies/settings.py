@@ -204,7 +204,6 @@ def GetCall():
     if "calling" in string:
         InfoLog("Received call")
         InCall = True
-        PlaceCall()
         return True
     else:
         InfoLog("No new call")
