@@ -58,16 +58,19 @@ Wireless_Interface = "wlan0"
 
 global Serial_Commands
 Serial_Commands = {
-    'forward': 16,
-    'backward': 150,
-    'right': 32,
-    'left': 48,
-    'clockwise': 64,
-    'anti_clockwise': 80,
-    'stop': 96,
-    'sensor_1': 112,
-    'sensor_2': 128,
-    'battery': 144
+    'forward': 0b00010000,
+    'right': 0b00110000,
+    'left': 0b01000000,
+    'clockwise': 0b01010000,
+    'anti_clockwise': 0b01100000,
+    'stop': 0b10000000,
+    'sensor_1': 0b10010000,
+    'sensor_2': 0b10100000,
+    'sensor_3': 0b10110000,
+    'sensor_4': 0b11000000,
+    'sensor_5': 0b11010000,
+    'sensor_5': 0b11100000,
+    'battery': 0b10000000
 }
 
 global Speed_Modes
@@ -195,14 +198,22 @@ def GetBattery():
     return 15
 
 def GetCall():
-    s = requests.get("https://connection-robertoruano.c9users.io/PHP/call.html")
-    string = str(s.content)
-    if "calling" in string:
-        InfoLog("Received call")
-        return True
+    if InCall is False:
+        s = requests.get("https://connection-robertoruano.c9users.io/PHP/call.html")
+        string = str(s.content)
+        if "calling" in string:
+            InfoLog("Received call")
+            InCall = True
+            return True
+        else:
+            InfoLog("No new call")
+            InCall = False
+            return False
     else:
-        InfoLog("No new call")
         return False
+
+def DropCall():
+    InCall = False
 
 ''' 
     Function: Gets file log.html, and returns the newest command
@@ -407,10 +418,8 @@ class Interface(RelativeLayout):
         GetCommand()
 
     def get_call(self, dt):
-        if not(InCall):
-            if GetCall():
-                InCall = False
-                PlaceCall()
+        if GetCall():
+            PlaceCall()
 
 '''
     Class: Main kivy app for GUI and managing time interruptions
@@ -556,10 +565,10 @@ Builder.load_string('''
 ############################################################
 
 if __name__ == '__main__':
-    ConfigKivy()
-    print Serial_Commands['forward']
-    settings_json = ChangeSettings(settings_json)
-    RobotApp().run()
+    # ConfigKivy()
+    # print Serial_Commands['forward']
+    # settings_json = ChangeSettings(settings_json)
+    # RobotApp().run()
     # while 1:
     #     SendMessage(ser,"Hola")
     #     time.sleep(5)
@@ -567,5 +576,5 @@ if __name__ == '__main__':
     # while 1:
     #     print GetCommand()
     # PlaceCall()
-    # while 1:
-    #     GetCall()
+    while 1:
+        GetCall()
