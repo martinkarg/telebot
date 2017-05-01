@@ -101,7 +101,7 @@ Key_Commands = {
         'd': Serial_Commands['right'],
         'q': Serial_Commands['anti_clockwise'],
         'e': Serial_Commands['clockwise'],
-        'x': Serial_Commands['backward']
+        'x': Serial_Commands['stop']
     }
 
 global Speed
@@ -440,7 +440,7 @@ class RobotApp(App):
         setting = self.config.get('robot', 'robot_number')
 
         Clock.schedule_interval(app.update, 1.0 / 60.0)
-        Clock.schedule_interval(app.update_battery, 150.0)
+        #Clock.schedule_interval(app.update_battery, 150.0)
         Clock.schedule_interval(app.get_command, 1.0 / 60.0)
         #Clock.schedule_interval(app.get_call, 6.0 / 60.0)
 
