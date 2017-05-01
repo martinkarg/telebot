@@ -123,7 +123,9 @@ InCall = False
 
 def PlaceCall():
     robot_login = "https://connection-robertoruano.c9users.io/robot_login.php?username=" + Robot_ID + "&pswrd=" + Robot_Password
-    os.system("sudo su -c \"chromium-browser '" + robot_login + "'\" -s /bin/sh pi")
+    os.system("sudo su -c \"chromium-browser '" + robot_login + "'\" -s /bin/sh pi &")
+    # Full command:
+    # sudo su -c "chromium-browser 'https://connection-robertoruano.c9users.io/robot_login.php?username=robot01&pswrd=robot01'" -s /bin/sh pi &
     return robot_login
 
 def ErrorLog(message):
