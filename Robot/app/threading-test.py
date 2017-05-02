@@ -110,7 +110,7 @@ InCall = False
 
 def StartGUI():
     robot_gui = "localhost/robot_gui.php"
-    os.system("sudo su -c \"chromium-browser '" + robot_login + "' --start-fullscreen\" -s /bin/sh pi &")
+    os.system("sudo su -c \"chromium-browser '" + robot_gui + "' --start-fullscreen\" -s /bin/sh pi &")
     # Full command:
     # sudo su -c "chromium-browser 'localhost/robot_gui.php' --start-fullscreen" -s /bin/sh pi &
     return robot_gui
@@ -452,7 +452,7 @@ class perpetualTimer():
 # MAIN
 ##################################
 if __name__ == '__main__':
-	
+
     StartGUI()
 
     getting_command = perpetualTimer(1.0 / 60.0,get_command)
