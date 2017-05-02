@@ -116,19 +116,19 @@ def KillCall():
     return None
 
 def ErrorLog(message):
-    logging.basicConfig(filename = Log_File, level = logging.DEBUG)
+    #logging.basicConfig(filename = Log_File, level = logging.DEBUG)
     logging.warning(strftime(" %d-%m-%Y %H:%M:%S -> ", gmtime()) + 
                     str(message))
     return None
 
 def DebugLog(message):
-    logging.basicConfig(filename= Log_File, level = logging.DEBUG)
+    #logging.basicConfig(filename= Log_File, level = logging.DEBUG)
     logging.debug(strftime(" %d-%m-%Y %H:%M:%S -> ", gmtime()) + 
                   str(message))
     return None
     
 def InfoLog(message):
-    logging.basicConfig(filename = Log_File, level = logging.DEBUG)
+    #logging.basicConfig(filename = Log_File, level = logging.DEBUG)
     logging.info(strftime(" %d-%m-%Y %H:%M:%S -> ", gmtime()) + 
                  str(message))
     return None
@@ -382,7 +382,7 @@ def get_command():
     GetCommand()
 
 # This should be called every 16.666 milliseconds = 1/60 seconds
-def get_call(self, dt):
+def get_call():
     if InCall is False:
         GetCall()
     else:
@@ -408,7 +408,7 @@ class perpetualTimer():
       self.hFunction()
       self.thread = Timer(self.t,self.handle_function)
       self.thread.start()
-      
+
 
    def start(self):
       self.thread.start()
