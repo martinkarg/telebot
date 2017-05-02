@@ -270,6 +270,7 @@ def DropCall():
         StartGUI()
         return False
     else:
+        InfoLog("Still in call")
         InCall = True
         return True
 
@@ -491,18 +492,16 @@ class perpetualTimer():
 ##################################
 if __name__ == '__main__':
 
-    print InternetOn()
-    print GetJSON(JSON_File)
-    UpdateGUI(JSON_File)
-
     StartGUI()
 
     getting_command = perpetualTimer(1.0 / 60.0,get_command)
     getting_call = perpetualTimer(6.0 / 60.0,get_call)
-    getting_battery = perpetualTimer(200.0,update_gui)
+    getting_gui = perpetualTimer(200.0,update_gui)
     getting_sensor = perpetualTimer(5.0,get_sensor)
+    getting_battery = perpetualTimer(300.0,get_battery)
 
     getting_command.start()
     getting_call.start()
+    getting_gui.start()
     #getting_battery.start()
     #getting_sensor.start()
