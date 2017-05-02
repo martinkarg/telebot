@@ -108,13 +108,6 @@ InCall = False
 # CHROMIUM
 ############
 
-def StartGUI():
-    robot_gui = "localhost/robot_gui.php"
-    os.system("sudo su -c \"chromium-browser '" + robot_login + "' --start-fullscreen\" -s /bin/sh pi &")
-    # Full command:
-    # sudo su -c "chromium-browser 'localhost/robot_gui.php' --start-fullscreen" -s /bin/sh pi &
-    return robot_gui
-
 def PlaceCall():
     robot_login = "https://connection-robertoruano.c9users.io/robot_login.php?username=" + Robot_ID + "&pswrd=" + Robot_Password
     os.system("sudo su -c \"chromium-browser '" + robot_login + "' --start-fullscreen\" -s /bin/sh pi &")
@@ -122,7 +115,7 @@ def PlaceCall():
     # sudo su -c "chromium-browser 'https://connection-robertoruano.c9users.io/robot_login.php?username=robot01&pswrd=robot01' --start-fullscreen" -s /bin/sh pi &
     return robot_login
 
-def KillChromium():
+def KillCall():
     os.system("killall chromium-browser")
     return None
 
@@ -260,7 +253,7 @@ def DropCall():
     if "none" in string:
         InfoLog("Dropped call")
         InCall = False
-        KillChromium()
+        KillCall()
         return False
     else:
         InCall = True
@@ -453,8 +446,6 @@ class perpetualTimer():
 ##################################
 if __name__ == '__main__':
 	
-    StartGUI()
-
 	getting_command = perpetualTimer(1.0 / 60.0,get_command)
 	getting_call = perpetualTimer(6.0 / 60.0,get_call)
 	getting_battery = perpetualTimer(200.0,get_battery)
