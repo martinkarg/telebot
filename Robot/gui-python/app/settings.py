@@ -267,19 +267,23 @@ def GetCommand():
     global Old_Commands
     string = ""
     commands = "n"
-    s = requests.get("https://connection-robertoruano.c9users.io/PHP/log.html")
-    string = str(s.content)
-    if len(string)>len(Old_Commands):
-        character_numbers = len(Old_Commands)-len(string)
-        Old_Commands = string
-        commands = Old_Commands.strip()[-1]
-        SendMessage(ser,chr(Key_Commands[commands] + Speed_Modes[Speed]))
-        InfoLog("Read and sent command: " +  commands)
+    try:
+        s = requests.get("https://connection-robertoruano.c9users.io/PHP/log.html")
+        string = str(s.content)
+        if len(string)>len(Old_Commands):
+            character_numbers = len(Old_Commands)-len(string)
+            Old_Commands = string
+            commands = Old_Commands.strip()[-1]
+            SendMessage(ser,chr(Key_Commands[commands] + Speed_Modes[Speed]))
+            InfoLog("Read and sent command: " +  commands)
+            return commands
+        s = requests.get("https://connection-robertoruano.c9users.io/PHP/log.html")
+        string = str(s.content)
+        InfoLog("No new command")
         return commands
-    s = requests.get("https://connection-robertoruano.c9users.io/PHP/log.html")
-    string = str(s.content)
-    InfoLog("No new command")
-    return commands
+    except(KeyError):
+        ErrorLog("Exception: KeyError in GetCommand")
+        return commands
 
 ''' Configuration of kivy https://kivy.org/docs/api-kivy.config.html
     Function: Configures the app to be fullscreen, borderless, to exit
