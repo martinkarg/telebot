@@ -104,6 +104,10 @@ InCall = False
 # FUNCTIONS
 #############
 
+############
+# CHROMIUM
+############
+
 def PlaceCall():
     robot_login = "https://connection-robertoruano.c9users.io/robot_login.php?username=" + Robot_ID + "&pswrd=" + Robot_Password
     os.system("sudo su -c \"chromium-browser '" + robot_login + "' --start-fullscreen\" -s /bin/sh pi &")
@@ -114,6 +118,10 @@ def PlaceCall():
 def KillCall():
     os.system("killall chromium-browser")
     return None
+
+############
+# LOGGING
+############
 
 def ErrorLog(message):
 	log = strftime(" %d-%m-%Y %H:%M:%S -> ", gmtime()) + str(message)
@@ -135,6 +143,10 @@ def InfoLog(message):
 	#logging.basicConfig(filename = Log_File, level = logging.DEBUG)
 	#logging.info(log)
 	return None
+
+############
+# SERIAL
+############
 
 ''' 
     Function: Starts a serial object at 9600 baud rate with default 
@@ -196,6 +208,10 @@ def GetSensor():
     InfoLog("Sensor 0 read at: " + str(sensor_data) + "%")
     SetSensor(sensor_data)
     return 15
+
+############
+# REQUESTS
+############
 
 def SetBattery(battery):
     r = requests.get("https://connection-robertoruano.c9users.io/PHP/set_battery.php?battery=" + str(battery))
@@ -270,6 +286,10 @@ def GetCommand():
     except(KeyError):
         ErrorLog("Exception: KeyError in GetCommand")
         return commands
+
+############
+# INT. CONF.
+############
 
 ''' 
     Function: Reads a .ini file and returns a dictionary
@@ -369,16 +389,20 @@ def ChangeWifi(interface, ssid, password):
     scheme.activate()
     return None
 
+############
+# PERIODIC
+############
+
 # This should be called every 1/3 of a second
-def update():
+def start_settings():
     robot_number_label = 'Robot: ' + GetIniFile("robot.ini","robot")["robot_number"]
     date = GetDate()
     Robot_ID = Robot_Password = "robot01"
 
 # This should be called every 2.5 minutes
-def update_battery():
+def get_battery():
     Robot_Battery = GetBattery()
-    Battery_Text = str(GetBattery()) + '%'
+    Battery_Text = str(Robot_Battery) + '%'
 
 # This should be called every 16.666 milliseconds = 1/60 seconds
 def get_command():
@@ -391,11 +415,9 @@ def get_call():
     else:
         DropCall()
 
-def printer():
-	print "Lorem"
-
-def printer2():
-	print "Ipsum"
+# This should be called every 5 seconds
+def get_sensor():
+	GetSensor()
 
 ############
 # THREADING
@@ -423,11 +445,13 @@ class perpetualTimer():
 # MAIN
 ##################################
 if __name__ == '__main__':
+	
 	getting_command = perpetualTimer(1.0 / 60.0,get_command)
 	getting_call = perpetualTimer(6.0 / 60.0,get_call)
+	getting_battery = perpetualTimer(200.0,get_battery)
+	getting_sensor = perpetualTimer(5.0,get_sensor)
+	
 	getting_command.start()
 	getting_call.start()
-		# Clock.schedule_interval(app.update, 1.0 / 60.0)
-  #       #Clock.schedule_interval(app.update_battery, 150.0)
-  #       Clock.schedule_interval(app.get_command, 1.0 / 60.0)
-  #       Clock.schedule_interval(app.get_call, 6.0 / 60.0)
+	#getting_battery.start()
+	#getting_sensor.start()
