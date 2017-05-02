@@ -27,6 +27,8 @@ import os
 
 from threading import Timer,Thread,Event
 
+import urllib2
+
 #############
 # GLOBAL VARS
 #############
@@ -99,6 +101,9 @@ Robot_ID = Robot_Password = "robot01"
 
 global InCall
 InCall = False
+
+global JSON_File 
+JSON_File = "/var/www/html/data.json"
 
 #############
 # FUNCTIONS
@@ -245,6 +250,7 @@ def GetCall():
     if "calling" in string:
         InfoLog("Received call")
         InCall = True
+        KillChromium()
         PlaceCall()
         return True
     else:
@@ -261,6 +267,7 @@ def DropCall():
         InfoLog("Dropped call")
         InCall = False
         KillChromium()
+        StartGUI()
         return False
     else:
         InCall = True
@@ -396,6 +403,13 @@ def ChangeWifi(interface, ssid, password):
     scheme.activate()
     return None
 
+def InternetOn():
+    try:
+        urllib2.urlopen('https://google.com', timeout=1)
+        return True
+    except urllib2.URLError as err: 
+        return False
+
 ############
 # PERIODIC
 ############
@@ -427,6 +441,23 @@ def get_sensor():
 	GetSensor()
 
 ############
+# JSON
+############
+
+def GetJSON(file):
+    with open(file) as json_file:  
+        data = json.load(json_file)
+        return data
+
+def UpdateGUI(file):
+    with open(file) as json_file:  
+        data = json.load(json_file)
+        settings["battery"] = GetBattery()
+        settings["Internet"] = str(InternetOn())
+        with open(file,'w') as json_file:
+            json.dump(data,json_file)
+
+############
 # THREADING
 ############
 class perpetualTimer():
@@ -453,6 +484,9 @@ class perpetualTimer():
 ##################################
 if __name__ == '__main__':
 
+    print InternetOn()
+    print GetJSON(JSON_File)
+    
     StartGUI()
 
     getting_command = perpetualTimer(1.0 / 60.0,get_command)
