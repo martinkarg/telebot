@@ -419,8 +419,8 @@ class perpetualTimer():
 # MAIN
 ##################################
 if __name__ == '__main__':
-	getting_command = perpetualTimer(1.0 / 60.0,printer)
-	getting_call = perpetualTimer(6.0 / 60.0,printer2)
+	getting_command = perpetualTimer(1.0 / 60.0,get_command)
+	getting_call = perpetualTimer(6.0 / 60.0,get_call)
 	getting_command.start()
 	getting_call.start()
 		# Clock.schedule_interval(app.update, 1.0 / 60.0)
