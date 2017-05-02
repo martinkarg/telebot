@@ -118,15 +118,15 @@ def KillCall():
 def ErrorLog(message):
     log = strftime(" %d-%m-%Y %H:%M:%S -> ", gmtime()) + str(message)
     print "[ERROR] " + log
-    logging.basicConfig(filename = Log_File, level = logging.DEBUG)
-    logging.warning(log)
+	logging.basicConfig(filename = Log_File, level = logging.DEBUG)
+	logging.warning(log)
     return None
 
 def DebugLog(message):
-	log = strftime(" %d-%m-%Y %H:%M:%S -> ", gmtime()) + str(message)
-	print "[DEBUG] " + log
-    logging.basicConfig(filename= Log_File, level = logging.DEBUG)
-    logging.debug(log)
+    log = strftime(" %d-%m-%Y %H:%M:%S -> ", gmtime()) + str(message)
+    print "[DEBUG] " + log
+	logging.basicConfig(filename = Log_File, level = logging.DEBUG)
+	logging.debug(log)
     return None
     
 def InfoLog(message):
