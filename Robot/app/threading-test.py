@@ -423,7 +423,7 @@ def UpdateGUI(file):
     with open(file) as json_file:  
         settings = json.load(json_file)
         settings["battery"] = GetBattery()
-        InfoLog("Battery read and set at: " + settings["battery"])
+        InfoLog("Battery read and set at: " + str(settings["battery"]))
         settings["Internet"] = str(InternetOn())
         InfoLog("Internet works: " + settings["Internet"])
         DebugLog(settings)
