@@ -416,19 +416,19 @@ def InternetOn():
 
 def GetJSON(file):
     with open(file) as json_file:  
-        data = json.load(json_file)
-        return data
+        settings = json.load(json_file)
+        return settings
 
 def UpdateGUI(file):
     with open(file) as json_file:  
-        data = json.load(json_file)
+        settings = json.load(json_file)
         settings["battery"] = GetBattery()
         InfoLog("Battery read and set at: " + settings["battery"])
         settings["Internet"] = str(InternetOn())
         InfoLog("Internet works: " + settings["Internet"])
-        DebugLog(data)
+        DebugLog(settings)
         with open(file,'w') as json_file:
-            json.dump(data,json_file)
+            json.dump(settings,json_file)
 
 ############
 # PERIODIC
