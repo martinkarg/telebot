@@ -411,6 +411,26 @@ def InternetOn():
         return False
 
 ############
+# JSON
+############
+
+def GetJSON(file):
+    with open(file) as json_file:  
+        data = json.load(json_file)
+        return data
+
+def UpdateGUI(file):
+    with open(file) as json_file:  
+        data = json.load(json_file)
+        settings["battery"] = GetBattery()
+        InfoLog("Battery read and set at: " + settings["battery"])
+        settings["Internet"] = str(InternetOn())
+        InfoLog("Internet works: " + settings["Internet"])
+        DebugLog(data)
+        with open(file,'w') as json_file:
+            json.dump(data,json_file)
+
+############
 # PERIODIC
 ############
 
@@ -440,22 +460,9 @@ def get_call():
 def get_sensor():
 	GetSensor()
 
-############
-# JSON
-############
-
-def GetJSON(file):
-    with open(file) as json_file:  
-        data = json.load(json_file)
-        return data
-
-def UpdateGUI(file):
-    with open(file) as json_file:  
-        data = json.load(json_file)
-        settings["battery"] = GetBattery()
-        settings["Internet"] = str(InternetOn())
-        with open(file,'w') as json_file:
-            json.dump(data,json_file)
+# Should be called every 3 minutes
+def update_gui():
+    UpdateGUI(JSON_File)
 
 ############
 # THREADING
@@ -486,12 +493,13 @@ if __name__ == '__main__':
 
     print InternetOn()
     print GetJSON(JSON_File)
-    
+    UpdateGUI(JSON_File)
+
     StartGUI()
 
     getting_command = perpetualTimer(1.0 / 60.0,get_command)
     getting_call = perpetualTimer(6.0 / 60.0,get_call)
-    getting_battery = perpetualTimer(200.0,get_battery)
+    getting_battery = perpetualTimer(200.0,update_gui)
     getting_sensor = perpetualTimer(5.0,get_sensor)
 
     getting_command.start()
