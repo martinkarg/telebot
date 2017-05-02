@@ -455,12 +455,12 @@ if __name__ == '__main__':
 	
     StartGUI()
 
-	getting_command = perpetualTimer(1.0 / 60.0,get_command)
-	getting_call = perpetualTimer(6.0 / 60.0,get_call)
-	getting_battery = perpetualTimer(200.0,get_battery)
-	getting_sensor = perpetualTimer(5.0,get_sensor)
-	
-	getting_command.start()
-	getting_call.start()
-	#getting_battery.start()
-	#getting_sensor.start()
+    getting_command = perpetualTimer(1.0 / 60.0,get_command)
+    getting_call = perpetualTimer(6.0 / 60.0,get_call)
+    getting_battery = perpetualTimer(200.0,get_battery)
+    getting_sensor = perpetualTimer(5.0,get_sensor)
+
+    getting_command.start()
+    getting_call.start()
+    #getting_battery.start()
+    #getting_sensor.start()
