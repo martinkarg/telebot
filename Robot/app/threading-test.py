@@ -90,7 +90,7 @@ Key_Commands = {
     }
 
 global Speed
-Speed = "level_2"
+Speed = "level_3"
 
 global Old_Commands
 Old_Commands = " "
