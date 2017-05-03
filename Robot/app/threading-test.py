@@ -264,6 +264,7 @@ def DropCall():
     s = requests.get("https://connection-robertoruano.c9users.io/PHP/call.html")
     string = str(s.content)
     if "none" in string:
+        SendMessage(ser, chr(Serial_Commands["stop"]))
         InfoLog("Dropped call")
         InCall = False
         KillChromium()
@@ -501,7 +502,7 @@ if __name__ == '__main__':
     getting_battery = perpetualTimer(300.0,get_battery)
 
     getting_command.start()
-    getting_call.start()
-    getting_gui.start()
+    #getting_call.start()
+    #getting_gui.start()
     #getting_battery.start()
     #getting_sensor.start()
