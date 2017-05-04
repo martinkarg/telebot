@@ -49,7 +49,7 @@ Serial_Commands = {
     'left': 0b01000000,
     'clockwise': 0b01010000,
     'anti_clockwise': 0b01100000,
-    'stop': 0b01110000,
+    'stop': 0b10000000,
     'sensor_0': 0b10010000,
     'sensor_1': 0b10100000,
     'sensor_2': 0b10110000,
@@ -87,7 +87,7 @@ Key_Commands = {
         'd': Serial_Commands['right'],
         'q': Serial_Commands['anti_clockwise'],
         'e': Serial_Commands['clockwise'],
-        'x': Serial_Commands['stop']
+        'x': Serial_Commands['backward']
     }
 
 global Speed
@@ -494,7 +494,7 @@ class perpetualTimer():
 ##################################
 if __name__ == '__main__':
 
-    StartGUI()
+    #StartGUI()
 
     getting_command = perpetualTimer(1.0 / 60.0,get_command)
     getting_call = perpetualTimer(6.0 / 60.0,get_call)
